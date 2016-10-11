@@ -1,0 +1,15 @@
+<div class="container contact contact-index">
+  <ul class="list-group">
+    <% travels.forEach(function(travel) { %> <!-- 3 -->
+       <li class="list-group-item">
+          <p><%= travel.big %></p>
+          <p><%= travel.small %></p>
+          <p><%= travel.start %></p>
+          <p><%= travel.end %></p>
+          <p><%= travel.gender %></p>
+          <p><%= travel.number %></p>
+          <p><%= travel.comment %></p>
+       </li>
+    <% }) %>
+  </ul>
+</div>

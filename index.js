@@ -8,10 +8,10 @@ var app = express();
 // DB setting
 mongoose.connect(process.env.MONGO_DB); // 1
 var db = mongoose.connection; // 2
-    
+
 db.once("open", function(){
  console.log("DB connected");
-});
+}); 
 // 4
 db.on("error", function(err){
  console.log("DB ERROR : ", err);

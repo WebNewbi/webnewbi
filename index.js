@@ -3,9 +3,9 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser"); // 1
 var methodOverride = require("method-override"); // 1
 
-var app = express();
+var app = express();;
 
-// DB setting   
+// DB setting
 mongoose.connect(process.env.MONGO_DB); // 1
 var db = mongoose.connection; // 2
 

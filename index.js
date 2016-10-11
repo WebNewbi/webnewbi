@@ -5,7 +5,7 @@ var methodOverride = require("method-override"); // 1
 
 var app = express();
 
-// DB setting
+// DB setting   
 mongoose.connect(process.env.MONGO_DB); // 1
 var db = mongoose.connection; // 2
 
@@ -15,7 +15,7 @@ db.once("open", function(){
 // 4
 db.on("error", function(err){
  console.log("DB ERROR : ", err);
-});  
+});
 
 app.set("view engine","ejs");
 app.use(express.static(__dirname));

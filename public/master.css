@@ -1,0 +1,21 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  align-items:  center;
+}
+
+header .row,
+footer .row {
+  display: flex;
+  align-items: center;
+}
+
+header h1 {
+  font-weight: 700;
+  margin: 0;
+}
+
+header nav {
+  display: flex;
+  justify-content: flex-end;
+}

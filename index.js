@@ -23,8 +23,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 
+// routes
 app.use("/", require("./routes/home"));
 
+// Port setting
 app.listen(3000, function(){
   console.log("server on");
 });

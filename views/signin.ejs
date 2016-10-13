@@ -3,7 +3,7 @@
 
     <head>
         <% include ./partials/head %>
-        <script type="text/javascript" src="../public/facebook.js"></script>
+            <script type="text/javascript" src="../public/facebook.js"></script>
     </head>
 
     <body>
@@ -15,8 +15,6 @@
                 <!-- facebook login button -->
                 <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
             </div>
-
-
 
             <form class="form-horizontal" action="/signin" method="post">
                 <div class="form-group">

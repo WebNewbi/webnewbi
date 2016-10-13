@@ -1,6 +1,7 @@
 var express = require('express');
 var Member = require("../models/members");
 var Travel = require("../models/travels");
+
 var router = express.Router();
 
 router.get("/", function(req, res) {
@@ -13,6 +14,7 @@ router.get("/", function(req, res) {
 router.get("/signin", function(req, res){
  res.render("signin");
 });
+
 router.post("/signin", function(req, res){
  Member.create(req.body, function(err, member){
   if(err) return res.json(err);
@@ -24,6 +26,7 @@ router.post("/signin", function(req, res){
 router.get("/new", function(req, res){
  res.render("new");
 });
+
 // Contacts - create // 9
 router.post("/new", function(req, res){
  Travel.create(req.body, function(err, travel){

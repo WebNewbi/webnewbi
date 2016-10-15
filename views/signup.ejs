@@ -3,9 +3,6 @@
 
     <head>
         <% include ./partials/head %>
-            <script src="https://apis.google.com/js/platform.js" async defer></script>
-            <meta name="google-signup-client_id" content="966622929148-22jointu1o40re7eebui79l2hfabfoj3.apps.googleusercontent.com">
-            <script type="text/javascript" src="../public/facebook.js"></script>
     </head>
 
     <body>
@@ -63,64 +60,6 @@
             </div>
             </form>
 
-
-            <div class=" container contact contact-index ">
-                <!-- google login button -->
-                <div class="g-signin2 " data-onsuccess="onSignIn "></div>
-                <!-- facebook login button -->
-                <fb:login-button scope="public_profile,email " onlogin="checkLoginState(); "></fb:login-button>
-            </div>
-
-
-            <p id="keytest ">Some text here</p>
-
-            <script>
-                function post(path, params, method) {
-                    method = method || "post "; // Set method to post by default if not specified.
-
-                    // The rest of this code assumes you are not using a library.
-                    // It can be made less wordy if you use one.
-                    var form = document.createElement("form ");
-                    form.setAttribute("method ", method);
-                    form.setAttribute("action ", path);
-
-                    for (var key in params) {
-                        if (params.hasOwnProperty(key)) {
-                            var hiddenField = document.createElement("input ");
-                            hiddenField.setAttribute("type ", "hidden ");
-                            hiddenField.setAttribute("name ", key);
-                            hiddenField.setAttribute("value ", params[key]);
-
-                            form.appendChild(hiddenField);
-                        }
-                    }
-
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-
-                function onSignIn(googleUser) {
-                    var profile = googleUser.getBasicProfile();
-                    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-                    console.log('Name: ' + profile.getName());
-                    console.log('Image URL: ' + profile.getImageUrl());
-                    console.log('Email: ' + profile.getEmail());
-
-                    doument.getElementById("keytest ").innerHTML = profile.getEmail() + ":Google ";
-
-                    post('/signup', {
-                        email: profile.getEmail() + ":Google "
-                    });
-                }
-
-            </script>
     </body>
-
-</html>
-</body>
-
-</html>
-
-</html>
 
 </html>

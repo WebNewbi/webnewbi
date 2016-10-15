@@ -22,6 +22,12 @@ router.post("/signin", function(req, res){
  });
 });
 
+router.get("/login", function(req, res){
+ res.render("login");
+});
+
+router.post("/login", );
+
 // Contacts - New // 8
 router.get("/new", function(req, res){
  res.render("new");
@@ -34,5 +40,33 @@ router.post("/new", function(req, res){
   res.redirect("/");
  });
 });
+
+
+// for trigger route test
+var cb0 = function (req, res, next) {
+  console.log('CB0');
+  res.render('error', { error: err });
+  var temp = false;
+  if ( temp )
+  {
+    next();
+  }
+  else {
+    res.send('temp is not true');
+  }
+}
+
+var cb1 = function (req, res, next) {
+  console.log('CB1');
+  next();
+}
+
+var cb2 = function (req, res) {
+  res.send('Hello from C!');
+}
+
+router.get("/hello", [cb0, cb1, cb2] );
+
+
 
 module.exports = router;

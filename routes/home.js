@@ -5,47 +5,65 @@ var Travel = require("../models/travels");
 var router = express.Router();
 
 router.get("/", function(req, res) {
-  Travel.find({}, function(err, travels){
-    if(err) return res.json(err);
-    res.render("index", {travels:travels});
-  });
+    Travel.find({}, function(err, travels) {
+        if (err) return res.json(err);
+        res.render("index", {
+            travels: travels
+        });
+    });
 });
 
-router.get("/signin", function(req, res){
- res.render("signin");
+router.get("/signup", function(req, res) {
+    res.render("signup");
 });
 
-router.post("/signin", function(req, res){
- Member.create(req.body, function(err, member){
-  if(err) return res.json(err);
-  res.redirect("/");
- });
+router.post("/signup", function(req, res) {
+    Member.findOne({
+        username: req.body.username
+    }, function(err, member) {
+        if (err)
+
+            Member.create(req.body, function(err, member) {
+            if (err) return res.json(err);
+            res.redirect("/");
+        });
+    });
 });
 
-router.get("/login", function(req, res){
- res.render("login");
+// login
+router.get("/signin", function(req, res) {
+    res.render("signin");
 });
 
-router.post("/login", );
-
-// Contacts - New // 8
-router.get("/new", function(req, res){
- res.render("new");
+router.post("/signin", function(req, res) {
+    Member.findOne({
+        username: req.body.username
+    }, function(err, member) {
+        if (err)
+          res.redirect("/singup");
+        else {
+          res.redirect("/");
+        }
+    });
 });
 
-// Contacts - create // 9
-router.post("/new", function(req, res){
- Travel.create(req.body, function(err, travel){
-  if(err) return res.json(err);
-  res.redirect("/");
- });
+// Contacts - New
+router.get("/new", function(req, res) {
+    res.render("new");
+});
+
+// Contacts - create
+router.post("/new", function(req, res) {
+    Travel.create(req.body, function(err, travel) {
+        if (err) return res.json(err);
+        res.redirect("/");
+    });
 });
 
 
 // for trigger route test
 var cb0 = function (req, res, next) {
   console.log('CB0');
-  res.render('error', { error: err });
   var temp = false;
   if ( temp )
   {

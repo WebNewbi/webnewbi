@@ -2,8 +2,12 @@ var express = require('express');
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
+
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+
 var crypto = require("crypto");
-var session = require("express-session");
+
 
 
 var app = express();
@@ -40,7 +44,17 @@ var createSession = function createSession(){
   };
 };
 
-app.use(session({ secret: 'keyboard cat', cookie:{} }));
+app.use(session({
+    secret: 'sadfklsadjfasd',
+    store: new MongoStore({
+        url: 'mongodb://musang33:webzen1@ds041566.mlab.com:41566/musang33',
+        autoRemove: 'native' // Default
+    }),
+    resave: false, //don't save session if unmodified
+    saveUninitialized: false,
+    ttl: 14 * 24 * 60 * 60 // = 14 days. Default
+
+}));
 app.use(createSession());
 
 // routes

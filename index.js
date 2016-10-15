@@ -3,8 +3,8 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 var crypto = require("crypto");
 

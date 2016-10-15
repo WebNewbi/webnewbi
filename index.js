@@ -9,24 +9,26 @@ var app = express();
 mongoose.connect(process.env.MONGO_DB);
 var db = mongoose.connection;
 
-db.once("open", function(){
- console.log("DB connected");
+db.once("open", function() {
+    console.log("DB connected");
 });
 
-db.on("error", function(err){
- console.log("DB ERROR : ", err);
+db.on("error", function(err) {
+    console.log("DB ERROR : ", err);
 });
 
-app.set("view engine","ejs");
+app.set("view engine", "ejs");
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(methodOverride("_method"));
 
 // routes
 app.use("/", require("./routes/home"));
 
 // Port setting
-app.listen(3000, function(){
-  console.log("server on");
+app.listen(3000, function() {
+    console.log("server on");
 });

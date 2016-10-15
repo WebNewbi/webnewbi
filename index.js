@@ -34,8 +34,7 @@ app.use(methodOverride("_method"));
 app.use(session({
     secret: 'sadfklsadjfasd',
     store: new MongoStore({
-        url: 'mongodb://musang33:webzen1@ds041566.mlab.com:41566/musang33',
-        autoRemove: 'native' // Default
+        mongooseConnection: mongoose.connection
     }),
     resave: false, //don't save session if unmodified
     saveUninitialized: false,

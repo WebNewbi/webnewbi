@@ -4,13 +4,18 @@ var Travel = require("../models/travels");
 
 var router = express.Router();
 
+var sess = 10;
+
 router.get("/", function(req, res) {
     Travel.find({}, function(err, travels) {
+        username = req.session.name;
         if (err) return res.json(err);
         res.render("index", {
-            travels: travels
+            travels: travels,
+            username: username
         });
     });
+
 });
 
 router.get("/signup", function(req, res) {
@@ -28,6 +33,8 @@ router.post("/signup", function(req, res) {
             res.redirect("/");
         });
     });
+
+    req.session.name = req.body.username;
 });
 
 // Contacts - New // 8

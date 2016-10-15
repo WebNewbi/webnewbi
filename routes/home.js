@@ -21,12 +21,12 @@ router.post("/signup", function(req, res) {
     Member.findOne({
         username: req.body.username
     }, function(err, member) {
-        if (err)
-
+      if (err) return res.json(err);
+        if (member === null ){
             Member.create(req.body, function(err, member) {
             if (err) return res.json(err);
-            res.redirect("/");
-        });
+            res.redirect("/signin");});
+          }
     });
 });
 
@@ -37,12 +37,18 @@ router.get("/signin", function(req, res) {
 
 router.post("/signin", function(req, res) {
     Member.findOne({
-        username: req.body.username
+        email:    req.body.email,
+        password: req.body.password
     }, function(err, member) {
-        if (err)
-          res.redirect("/singup");
+      if (err) return res.json(err);
+        if (member != null){
+    //      req.session.login = 'login';
+    //      req.session.email = req.body.email;
+
+          res.send("login complete.");
+        }
         else {
-          res.redirect("/");
+          res.redirect("/signup");
         }
     });
 });

@@ -4,8 +4,6 @@ var Travel = require("../models/travels");
 
 var router = express.Router();
 
-var sess = 10;
-
 router.get("/", function(req, res) {
     Travel.find({}, function(err, travels) {
         if (err) return res.json(err);

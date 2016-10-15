@@ -42,8 +42,8 @@ router.post("/signin", function(req, res) {
     }, function(err, member) {
       if (err) return res.json(err);
         if (member != null){
-    //      req.session.login = 'login';
-    //      req.session.email = req.body.email;
+          req.session.login = 'login';
+          req.session.email = req.body.email;
 
           res.send("login complete.");
         }

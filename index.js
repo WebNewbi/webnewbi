@@ -3,6 +3,8 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var crypto = require("crypto");
+var session = require("express-session");
+
 
 var app = express();
 
@@ -25,6 +27,21 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(methodOverride("_method"));
+
+// session
+var createSession = function createSession(){
+  return function( req, res, next ){
+    if( !req.session.login)
+    {
+      req.session.login = 'logout';
+    }
+
+    next();
+  };
+};
+
+app.use(session({ secret: 'keyboard cat', cookie:{} }));
+app.use(createSession());
 
 // routes
 app.use("/", require("./routes/home"));

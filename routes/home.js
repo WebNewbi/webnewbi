@@ -8,11 +8,10 @@ var sess = 10;
 
 router.get("/", function(req, res) {
     Travel.find({}, function(err, travels) {
-        username = req.session.name;
         if (err) return res.json(err);
         res.render("index", {
             travels: travels,
-            username: username
+            username: req.session.name
         });
     });
 
@@ -52,12 +51,14 @@ router.post("/signin", function(req, res) {
         if (member !== null) {
             //      req.session.login = 'login';
             //      req.session.email = req.body.email;
-
-            res.send("login complete.");
+            req.session.name = req.body.email;
+            res.redirect("/");
         } else {
             res.redirect("/signup");
         }
     });
+
+
 });
 
 // Contacts - New

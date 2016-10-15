@@ -19,7 +19,7 @@ router.get("/signup", function(req, res) {
 
 router.post("/signup", function(req, res) {
     Member.findOne({
-        email: req.body.email
+        username: req.body.username
     }, function(err, member) {
         if (err)
 

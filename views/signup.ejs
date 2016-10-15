@@ -12,7 +12,7 @@
         <% include ./partials/nav %>
 
             <div class="container user user-new">
-                <form class="user-form form-horizontal" name="myform" id="target" action="/signup" method="post" onsubmit="myFunction()">
+                <form class="user-form form-horizontal" name="myform" id="target" action="/signup" method="post" onsubmit="addMySiteToUsername()">
 
                     <h3 class="contentBoxTop">New User</h3>
 
@@ -50,15 +50,10 @@
                         <small>*Required</small>
                     </p>
                     <script>
-                        function myFunction() {
-                            document.getElementsByName('username')[0].value = document.getElementsByName('username')[0].value + ':mySite';
+                        function addMySiteToUsername() {
+                            document.getElementsByName('username')[0].value = document.getElementsByName('username')[0].value + ':MySite';
                             return true;
                         }
-
-                        $('#target').submit(function() {
-                            myFunction();
-                            return true;
-                        });
 
                     </script>
 

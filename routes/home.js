@@ -27,7 +27,7 @@ router.post("/signup", function(req, res) {
         if (member === null) {
             Member.create(req.body, function(err, member) {
                 if (err) return res.json(err);
-                res.redirect("/signin");
+                res.redirect("/login");
             });
         }
     });
@@ -36,11 +36,11 @@ router.post("/signup", function(req, res) {
 });
 
 // login
-router.get("/signin", function(req, res) {
-    res.render("signin");
+router.get("/login", function(req, res) {
+    res.render("login");
 });
 
-router.post("/signin", function(req, res) {
+router.post("/login", function(req, res) {
     Member.findOne({
         email: req.body.email,
         password: req.body.password

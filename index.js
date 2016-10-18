@@ -7,7 +7,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
 var crypto = require("crypto");
-
+var flash = require("connect-flash");
 
 
 var app = express();
@@ -25,6 +25,7 @@ db.on("error", function(err) {
 });
 
 app.set("view engine", "ejs");
+
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -33,6 +34,18 @@ app.use(bodyParser.urlencoded({
 app.use(methodOverride("_method"));
 
 // session
+app.use(session({
+    secret: 'sadfklsadjfasd',
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection
+    }),
+    resave: false, //don't save session if unmodified
+    saveUninitialized: false,
+    ttl: 14 * 24 * 60 * 60 // = 14 days. Default
+
+}));
+
+// function
 var createSession = function createSession(){
   return function( req, res, next ){
     if( !req.session.login)
@@ -44,17 +57,13 @@ var createSession = function createSession(){
   };
 };
 
-app.use(session({
-    secret: 'sadfklsadjfasd',
-    store: new MongoStore({
-        mongooseConnection: mongoose.connection
-    }),
-    resave: false, //don't save session if unmodified
-    saveUninitialized: false,
-    ttl: 14 * 24 * 60 * 60 // = 14 days. Default
-
-}));
 app.use(createSession());
+
+app.use(flash());
+
+var passport = require('./config/passport');
+app.use(passport.initialize());
+app.use(passport.session());
 
 // routes
 app.use("/", require("./routes/home"));

@@ -1,6 +1,7 @@
 var express = require('express');
 var Member = require("../models/members");
 var Travel = require("../models/travels");
+var passport = require('../config/passport.js');
 
 var router = express.Router();
 
@@ -40,7 +41,15 @@ router.get("/login", function(req, res) {
     res.render("login");
 });
 
-router.post("/login", function(req, res) {
+router.post("/login", passport.authenticate('local-login', {
+    successRedirect : '/',
+    failureRedirect : '/login',
+    failureFlash : true
+  })
+);
+
+/*
+function(req, res) {
     Member.findOne({
         email: req.body.email,
         password: req.body.password
@@ -57,7 +66,7 @@ router.post("/login", function(req, res) {
     });
 
 
-});
+});*/
 
 // Contacts - New
 router.get("/new", function(req, res) {

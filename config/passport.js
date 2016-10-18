@@ -6,6 +6,7 @@ var User          = require('../models/members');
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
+
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {
     done(err, user);
@@ -26,10 +27,12 @@ passport.use('local-login',
             req.flash("email", req.body.email);
             return done(null, false, req.flash('loginError', 'No user found.'));
         }
+
         if (!user.authenticate(password)){
-            req.flash("email", req.body.email);
+           req.flash("email", req.body.email);
             return done(null, false, req.flash('loginError', 'Password does not Match.'));
         }
+
         req.flash('postsMessage', 'Welcome '+user.nickname+'!');
         return done(null, user);
       });

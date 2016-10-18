@@ -11,7 +11,7 @@ var userSchema = mongoose.Schema({
     password: {
         type: String,
         required: [true, "Password is required!"],
-        select: false
+        //select: false
     },
     name: {
         type: String,
@@ -99,6 +99,15 @@ userSchema.pre("save", function (next){
   return next();
  }
 });
+
+
+userSchema.methods.authenticate = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+userSchema.methods.hash = function (password) {
+  return bcrypt.hashSync(password);
+};
 
 // model & export
 var User = mongoose.model("user", userSchema);

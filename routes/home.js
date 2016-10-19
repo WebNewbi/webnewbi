@@ -1,6 +1,7 @@
 var express = require('express');
 var Member = require("../models/members");
 var Travel = require("../models/travels");
+var passport = require('passport');
 
 var router = express.Router();
 
@@ -40,24 +41,29 @@ router.get("/signin", function(req, res) {
     res.render("signin");
 });
 
-router.post("/signin", function(req, res) {
-    Member.findOne({
-        email: req.body.email,
-        password: req.body.password
-    }, function(err, member) {
-        if (err) return res.json(err);
-        if (member !== null) {
-            req.session.login = 'login';
-            req.session.email = req.body.email;
-            req.session.name = req.body.email;
-            res.redirect("/");
-        } else {
-            res.redirect("/signup");
-        }
-    });
-
-
-});
+router.post("/signin",
+    passport.authenticate('local-login', {
+        successRedirect: '/',
+        failureRedirect: '/signin',
+        failureFlash: true
+    }));
+//     Member.findOne({
+//         email: req.body.email,
+//         password: req.body.password
+//     }, function(err, member) {
+//         if (err) return res.json(err);
+//         if (member !== null) {
+//             req.session.login = 'login';
+//             req.session.email = req.body.email;
+//             req.session.name = req.body.email;
+//             res.redirect("/");
+//         } else {
+//             res.redirect("/signup");
+//         }
+//     });
+//
+//
+// });
 
 // Contacts - New
 router.get("/new", function(req, res) {

@@ -6,8 +6,13 @@ var methodOverride = require("method-override");
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
-var crypto = require("crypto");
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
+var crypto = require("crypto");
+var Member = require("./models/members");
+
+var flash = require('connect-flash');
 
 
 var app = express();
@@ -32,29 +37,50 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(methodOverride("_method"));
 
-// session
-var createSession = function createSession(){
-  return function( req, res, next ){
-    if( !req.session.login)
-    {
-      req.session.login = 'logout';
-    }
-
-    next();
-  };
-};
-
 app.use(session({
-    secret: 'sadfklsadjfasd',
-    store: new MongoStore({
-        mongooseConnection: mongoose.connection
-    }),
-    resave: false, //don't save session if unmodified
-    saveUninitialized: false,
-    ttl: 14 * 24 * 60 * 60 // = 14 days. Default
-
+    secret: 'MySecret'
 }));
-app.use(createSession());
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(flash());
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    Member.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
+
+passport.use('local-login',
+    new LocalStrategy({
+            usernameField: 'email',
+            passwordField: 'password',
+            passReqToCallback: true
+        },
+        function(req, username, password, done) {
+            Member.findOne({
+                'email': username
+            }, function(err, user) {
+                if (err) return done(err);
+
+                if (!user) {
+                    req.flash("username", req.body.username);
+                    return done(null, false, req.flash('login error', 'no user found'));
+                }
+
+                if (!user.authenticate(password)) {
+                    req.flash("username", req.body.username);
+                    return done(null, false, req.flash('login error', 'Incorrect password'));
+                }
+
+                return done(null, user);
+            });
+        }
+    ));
 
 // routes
 app.use("/", require("./routes/home"));

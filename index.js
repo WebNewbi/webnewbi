@@ -20,6 +20,7 @@ var flash = require('connect-flash');
 var app = express();
 
 // DB setting
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGO_DB);
 var db = mongoose.connection;
 

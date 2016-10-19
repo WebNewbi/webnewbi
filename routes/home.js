@@ -46,14 +46,14 @@ router.post("/login",
         failureFlash: true
     }));
 
-router.get('/auth/google', passport.authenticate('google', {
+router.get("/auth/google", passport.authenticate('google', {
     scope: ['profile', 'email']
 }));
 
 // the callback after google has authenticated the user
-router.get('/auth/google/callback',
+router.get("/auth/google/callback",
     passport.authenticate('google', {
-        successRedirect: '/profile',
+        successRedirect: '/',
         failureRedirect: '/'
     }));
 

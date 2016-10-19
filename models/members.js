@@ -26,12 +26,12 @@ var userSchema = mongoose.Schema({
     local            : {
         email        : {
               type: String,
-              required: [true, "Username is required!"],
-              unique: true
+  //            required: [true, "Username is required!"],
+  //            unique: true
           },
         password     : {
             type: String,
-            required: [true, "Password is required!"],
+//            required: [true, "Password is required!"],
             //select: false
         },
     },

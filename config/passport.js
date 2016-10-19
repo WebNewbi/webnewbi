@@ -43,14 +43,15 @@ passport.use('local-login',
 );
 
 
-/*
+
 passport.use(new FacebookStrategy({
     clientID: '783257915147716',//process.env.CLIENT_ID,
     clientSecret: '450a7d3ae9d4ec901a56764e09f362ad',//process.env.CLIENT_SECRET,
-    callbackURL: 'http://localhost:3000/login/facebook/return'
+    callbackURL: 'http://localhost:3000/login/facebook/callback',
+    profileFields: ['id', 'displayName', 'photos', 'emails', 'name']
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOne({ 'facebook.id' :  }, function(err, user) {
+    User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
       if (err) return done(err);
 
       // if the user is found, then log them in
@@ -62,7 +63,7 @@ passport.use(new FacebookStrategy({
 
           // set all of the facebook information in our user model
           newUser.facebook.id    = profile.id; // set the users facebook id
-          newUser.facebook.token = token; // we will save the token that facebook provides to the user
+          newUser.facebook.token = accessToken; // we will save the token that facebook provides to the user
           newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
           newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
 
@@ -78,6 +79,6 @@ passport.use(new FacebookStrategy({
     });
 
   }));
-  */
+
 
 module.exports = passport;

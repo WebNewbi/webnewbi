@@ -22,11 +22,14 @@ router.get("/signup", function(req, res) {
 
 router.post("/signup", function(req, res) {
     Member.findOne({
-        username: req.body.username
+        'local.email' :  req.body.email
     }, function(err, member) {
         if (err) return res.json(err);
         if (member === null) {
-            Member.create(req.body, function(err, member) {
+            Member.create( {  'local.email'           : req.body.email,
+                              'local.password'        : req.body.password,
+                              'passwordConfirmation'  : req.body.passwordConfirmation},
+               function(err, member) {
                 if (err) return res.json(err);
                 res.redirect("/login");
             });
@@ -47,6 +50,26 @@ router.post("/login", passport.authenticate('local-login', {
     failureFlash : true
   })
 );
+
+router.get('/login/facebook', passport.authenticate('facebook', { scope : 'read_stream' }));
+
+router.get("/login/facebook/callback", passport.authenticate('facebook', {
+    successRedirect : '/profile',
+    failureRedirect : '/login',
+    failureFlash : true
+  })
+);
+
+/*
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
+ // handle the callback after facebook has authenticated the user
+ app.get('/auth/facebook/callback',
+     passport.authenticate('facebook', {
+         successRedirect : '/profile',
+         failureRedirect : '/'
+     }));
+*/
 
 /*
 function(req, res) {
@@ -105,6 +128,7 @@ var cb2 = function(req, res) {
 router.get("/hello", [cb0, cb1, cb2]);
 
 
+//
 router.get('/profile', isLoggedIn, function(req, res) {
     res.render('profile.ejs', {
         user : req.user // get the user out of session and pass to template
@@ -113,6 +137,8 @@ router.get('/profile', isLoggedIn, function(req, res) {
 
 router.get('/logout', function(req, res) {
     req.logout();
+    req.session.destroy(function(err){
+  });
     res.redirect('/');
 });
 

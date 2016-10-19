@@ -3,9 +3,6 @@
 
     <head>
         <% include ./partials/head %>
-
-            <script src="https://apis.google.com/js/platform.js" async defer></script>
-            <meta name="google-signup-client_id" content="966622929148-22jointu1o40re7eebui79l2hfabfoj3.apps.googleusercontent.com">
             <script type="text/javascript" src="../public/facebook.js"></script>
     </head>
 
@@ -43,10 +40,8 @@
 
 
             <div class=" container contact contact-index ">
-                <!-- google login button -->
-                <div class="g-signin2 " data-onsuccess="onSignIn"></div>
-                <!-- facebook login button -->
                 <fb:login-button scope="public_profile,email " onlogin="checkLoginState(); "></fb:login-button>
+                <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
             </div>
 
 

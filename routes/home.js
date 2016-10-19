@@ -28,42 +28,23 @@ router.post("/signup", function(req, res) {
         if (member === null) {
             Member.create(req.body, function(err, member) {
                 if (err) return res.json(err);
-                res.redirect("/signin");
+                res.redirect("/login");
             });
         }
     });
-
-
 });
 
 // login
-router.get("/signin", function(req, res) {
-    res.render("signin");
+router.get("/login", function(req, res) {
+    res.render("login");
 });
 
-router.post("/signin",
+router.post("/login",
     passport.authenticate('local-login', {
         successRedirect: '/',
-        failureRedirect: '/signin',
+        failureRedirect: '/login',
         failureFlash: true
     }));
-//     Member.findOne({
-//         email: req.body.email,
-//         password: req.body.password
-//     }, function(err, member) {
-//         if (err) return res.json(err);
-//         if (member !== null) {
-//             req.session.login = 'login';
-//             req.session.email = req.body.email;
-//             req.session.name = req.body.email;
-//             res.redirect("/");
-//         } else {
-//             res.redirect("/signup");
-//         }
-//     });
-//
-//
-// });
 
 // Contacts - New
 router.get("/new", function(req, res) {

@@ -22,14 +22,19 @@ router.get("/signup", function(req, res) {
 
 router.post("/signup", function(req, res) {
     Member.findOne({
-        username: req.body.username
+        'local.email': req.body.email
     }, function(err, member) {
         if (err) return res.json(err);
         if (member === null) {
-            Member.create(req.body, function(err, member) {
-                if (err) return res.json(err);
-                res.redirect("/login");
-            });
+            Member.create({
+                    'local.email': req.body.email,
+                    'local.password': req.body.password,
+                    'passwordConfirmation': req.body.passwordConfirmation
+                },
+                function(err, member) {
+                    if (err) return res.json(err);
+                    res.redirect("/login");
+                });
         }
     });
 });
@@ -46,17 +51,28 @@ router.post("/login",
         failureFlash: true
     }));
 
+
 router.get("/auth/google", passport.authenticate('google', {
     scope: ['profile', 'email']
 }));
 
+
 // the callback after google has authenticated the user
 router.get("/auth/google/callback",
     passport.authenticate('google', {
-        successRedirect: '/',
+        successRedirect: '/profile',
         failureRedirect: '/'
     }));
 
+router.get('/login/facebook', passport.authenticate('facebook', {
+    scope: 'public_profile,email'
+}));
+
+router.get("/login/facebook/callback", passport.authenticate('facebook', {
+    successRedirect: '/profile',
+    failureRedirect: '/login',
+    failureFlash: true
+}));
 
 // Contacts - New
 router.get("/new", function(req, res) {
@@ -95,6 +111,7 @@ var cb2 = function(req, res) {
 router.get("/hello", [cb0, cb1, cb2]);
 
 
+//
 router.get('/profile', isLoggedIn, function(req, res) {
     res.render('profile.ejs', {
         user: req.user // get the user out of session and pass to template
@@ -103,6 +120,7 @@ router.get('/profile', isLoggedIn, function(req, res) {
 
 router.get('/logout', function(req, res) {
     req.logout();
+    req.session.destroy(function(err) {});
     res.redirect('/');
 });
 

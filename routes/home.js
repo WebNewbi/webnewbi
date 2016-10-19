@@ -105,5 +105,27 @@ var cb2 = function(req, res) {
 router.get("/hello", [cb0, cb1, cb2]);
 
 
+router.get('/profile', isLoggedIn, function(req, res) {
+    res.render('profile.ejs', {
+        user : req.user // get the user out of session and pass to template
+    });
+});
+
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
+//// route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/');
+}
+
 
 module.exports = router;

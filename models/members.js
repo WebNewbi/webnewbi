@@ -3,11 +3,12 @@ var bcrypt = require("bcrypt-nodejs");
 
 // schema // 1
 var userSchema = mongoose.Schema({
-    username: {
+  /*  username: {
         type: String,
         required: [true, "Username is required!"],
         unique: true
     },
+
     password: {
         type: String,
         required: [true, "Password is required!"],
@@ -20,6 +21,40 @@ var userSchema = mongoose.Schema({
     email: {
         type: String
     }
+    */
+
+    local            : {
+        email        : {
+              type: String,
+              required: [true, "Username is required!"],
+              unique: true
+          },
+        password     : {
+            type: String,
+            required: [true, "Password is required!"],
+            //select: false
+        },
+    },
+    facebook         : {
+        id           : String,
+        token        : String,
+        email        : String,
+        name         : String
+    },
+    twitter          : {
+        id           : String,
+        token        : String,
+        displayName  : String,
+        username     : String
+    },
+    google           : {
+        id           : String,
+        token        : String,
+        email        : String,
+        name         : String
+    }
+
+
 }, {
     toObject: {
         virtuals: true
@@ -63,7 +98,7 @@ userSchema.virtual("newPassword")
     });
 
 // password validation // 3
-userSchema.path("password").validate(function(v) {
+userSchema.path("local.password").validate(function(v) {
     var user = this;
 
     // create user
@@ -71,7 +106,7 @@ userSchema.path("password").validate(function(v) {
         if (!user.passwordConfirmation) {
             user.invalidate("passwordConfirmation", "Password Confirmation is required!");
         }
-        if (user.password !== user.passwordConfirmation) {
+        if (user.local.password !== user.passwordConfirmation) {
             user.invalidate("passwordConfirmation", "Password Confirmation does not matched!");
         }
     }
@@ -92,17 +127,17 @@ userSchema.path("password").validate(function(v) {
 
 userSchema.pre("save", function (next){
  var user = this;
- if(!user.isModified("password")){
+ if(!user.isModified("local.password")){
   return next();
  } else {
-  user.password = bcrypt.hashSync(user.password);
+  user.local.password = bcrypt.hashSync(user.local.password);
   return next();
  }
 });
 
 
 userSchema.methods.authenticate = function (password) {
-  return bcrypt.compareSync(password, this.password);
+  return bcrypt.compareSync(password, this.local.password);
 };
 
 userSchema.methods.hash = function (password) {

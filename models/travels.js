@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var travelSchema = mongoose.Schema({
+
   big:{type:String, required:true},
   small:{type:String, required:true},
   start:{type:String , required:true},
@@ -8,6 +9,7 @@ var travelSchema = mongoose.Schema({
   number:{type:String, required:true},
   comment:{type:String, required:true}
 });
-var Travel = mongoose.model("travel", travelSchema); //5
+
+var Travel = mongoose.model("travel", travelSchema);
 
 module.exports = Travel;

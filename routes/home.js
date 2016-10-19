@@ -1,7 +1,7 @@
 var express = require('express');
 var Member = require("../models/members");
 var Travel = require("../models/travels");
-var passport = require('../config/passport.js');
+var passport = require('passport');
 
 var router = express.Router();
 
@@ -35,8 +35,6 @@ router.post("/signup", function(req, res) {
             });
         }
     });
-
-
 });
 
 // login
@@ -44,14 +42,14 @@ router.get("/login", function(req, res) {
     res.render("login");
 });
 
-router.post("/login", passport.authenticate('local-login', {
-    successRedirect : '/',
-    failureRedirect : '/login',
-    failureFlash : true
-  })
-);
+router.post("/login",
+    passport.authenticate('local-login', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash: true
+    }));
 
-router.get('/login/facebook', passport.authenticate('facebook', { scope : 'read_stream' }));
+router.get('/login/facebook', passport.authenticate('facebook', { scope : 'public_profile,email' }));
 
 router.get("/login/facebook/callback", passport.authenticate('facebook', {
     successRedirect : '/profile',
@@ -60,36 +58,13 @@ router.get("/login/facebook/callback", passport.authenticate('facebook', {
   })
 );
 
-/*
-app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+// the callback after google has authenticated the user
+router.get('/auth/google/callback',
+    passport.authenticate('google', {
+        successRedirect: '/profile',
+        failureRedirect: '/'
+    }));
 
- // handle the callback after facebook has authenticated the user
- app.get('/auth/facebook/callback',
-     passport.authenticate('facebook', {
-         successRedirect : '/profile',
-         failureRedirect : '/'
-     }));
-*/
-
-/*
-function(req, res) {
-    Member.findOne({
-        email: req.body.email,
-        password: req.body.password
-    }, function(err, member) {
-        if (err) return res.json(err);
-        if (member !== null) {
-            req.session.login = 'login';
-            req.session.email = req.body.email;
-            req.session.name = req.body.email;
-            res.redirect("/");
-        } else {
-            res.redirect("/signup");
-        }
-    });
-
-
-});*/
 
 // Contacts - New
 router.get("/new", function(req, res) {
@@ -131,7 +106,7 @@ router.get("/hello", [cb0, cb1, cb2]);
 //
 router.get('/profile', isLoggedIn, function(req, res) {
     res.render('profile.ejs', {
-        user : req.user // get the user out of session and pass to template
+        user: req.user // get the user out of session and pass to template
     });
 });
 

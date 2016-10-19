@@ -2,12 +2,19 @@ var express = require('express');
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
+var morgan = require('morgan');
+
 
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 var crypto = require("crypto");
-var flash = require("connect-flash");
+var Member = require("./models/members");
+
+var flash = require('connect-flash');
 
 
 var app = express();
@@ -26,6 +33,7 @@ db.on("error", function(err) {
 
 app.set("view engine", "ejs");
 
+app.use(morgan('dev'));
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -46,15 +54,14 @@ app.use(session({
 }));
 
 // function
-var createSession = function createSession(){
-  return function( req, res, next ){
-    if( !req.session.login)
-    {
-      req.session.login = 'logout';
-    }
+var createSession = function createSession() {
+    return function(req, res, next) {
+        if (!req.session.login) {
+            req.session.login = 'logout';
+        }
 
-    next();
-  };
+        next();
+    };
 };
 
 app.use(createSession());

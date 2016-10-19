@@ -35,23 +35,23 @@ var userSchema = mongoose.Schema({
             //select: false
         },
     },
-    facebook         : {
-        id           : String,
-        token        : String,
-        email        : String,
-        name         : String
+    facebook: {
+        id: String,
+        token: String,
+        email: String,
+        name: String
     },
-    twitter          : {
-        id           : String,
-        token        : String,
-        displayName  : String,
-        username     : String
+    twitter: {
+        id: String,
+        token: String,
+        displayName: String,
+        username: String
     },
-    google           : {
-        id           : String,
-        token        : String,
-        email        : String,
-        name         : String
+    google: {
+        id: String,
+        token: String,
+        email: String,
+        name: String
     }
 
 
@@ -116,7 +116,7 @@ userSchema.path("local.password").validate(function(v) {
         if (!user.currentPassword) {
             user.invalidate("currentPassword", "Current Password is required!");
         }
-        if (user.currentPassword && !bcrypt.compareSync(user.currentPassword, user.originalPassword) ) {
+        if (user.currentPassword && !bcrypt.compareSync(user.currentPassword, user.originalPassword)) {
             user.invalidate("currentPassword", "Current Password is invalid!");
         }
         if (user.newPassword !== user.passwordConfirmation) {
@@ -125,23 +125,23 @@ userSchema.path("local.password").validate(function(v) {
     }
 });
 
-userSchema.pre("save", function (next){
- var user = this;
- if(!user.isModified("local.password")){
-  return next();
- } else {
-  user.local.password = bcrypt.hashSync(user.local.password);
-  return next();
- }
+userSchema.pre("save", function(next) {
+    var user = this;
+    if (!user.isModified("local.password")) {
+        return next();
+    } else {
+        user.local.password = bcrypt.hashSync(user.local.password);
+        return next();
+    }
 });
 
 
-userSchema.methods.authenticate = function (password) {
-  return bcrypt.compareSync(password, this.local.password);
+userSchema.methods.authenticate = function(password) {
+    return bcrypt.compareSync(password, this.local.password);
 };
 
-userSchema.methods.hash = function (password) {
-  return bcrypt.hashSync(password);
+userSchema.methods.hash = function(password) {
+    return bcrypt.hashSync(password);
 };
 
 // model & export

@@ -10,10 +10,8 @@ router.get("/", function(req, res) {
         if (err) return res.json(err);
         res.render("index", {
             travels: travels,
-            user: req.user
         });
     });
-
 });
 
 router.get("/signup", function(req, res) {
@@ -29,6 +27,8 @@ router.post("/signup", function(req, res) {
             Member.create({
                     'local.email': req.body.email,
                     'local.password': req.body.password,
+                    'email': req.body.email,
+                    'name': req.body.email,
                     'passwordConfirmation': req.body.passwordConfirmation
                 },
                 function(err, member) {
@@ -60,7 +60,7 @@ router.get("/auth/google", passport.authenticate('google', {
 // the callback after google has authenticated the user
 router.get("/auth/google/callback",
     passport.authenticate('google', {
-        successRedirect: '/profile',
+        successRedirect: '/',
         failureRedirect: '/'
     }));
 
@@ -69,7 +69,7 @@ router.get('/login/facebook', passport.authenticate('facebook', {
 }));
 
 router.get("/login/facebook/callback", passport.authenticate('facebook', {
-    successRedirect: '/profile',
+    successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true
 }));
@@ -110,8 +110,6 @@ var cb2 = function(req, res) {
 
 router.get("/hello", [cb0, cb1, cb2]);
 
-
-//
 router.get('/profile', isLoggedIn, function(req, res) {
     res.render('profile.ejs', {
         user: req.user // get the user out of session and pass to template
@@ -133,6 +131,5 @@ function isLoggedIn(req, res, next) {
     // if they aren't redirect them to the home page
     res.redirect('/');
 }
-
 
 module.exports = router;

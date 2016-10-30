@@ -8,13 +8,11 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 
 passport.serializeUser(function(user, done) {
-    done(null, user.id);
+    done(null, user);
 });
 
-passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-        done(err, user);
-    });
+passport.deserializeUser(function(user, done) {
+    done(null, user);
 });
 
 passport.use('local-login',
@@ -47,43 +45,45 @@ passport.use('local-login',
 );
 
 passport.use(new FacebookStrategy({
-    clientID: '783257915147716',//process.env.CLIENT_ID,
-    clientSecret: '450a7d3ae9d4ec901a56764e09f362ad',//process.env.CLIENT_SECRET,
-    callbackURL: 'http://localhost:3000/login/facebook/callback',
-    profileFields: ['id', 'displayName', 'photos', 'emails', 'name']
-  },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
-      if (err) return done(err);
+        clientID: '783257915147716', //process.env.CLIENT_ID,
+        clientSecret: '450a7d3ae9d4ec901a56764e09f362ad', //process.env.CLIENT_SECRET,
+        callbackURL: 'http://localhost:3000/login/facebook/callback',
+        profileFields: ['id', 'displayName', 'photos', 'emails', 'name']
+    },
+    function(accessToken, refreshToken, profile, done) {
+        User.findOne({
+            'facebook.id': profile.id
+        }, function(err, user) {
+            if (err) return done(err);
 
-      // if the user is found, then log them in
-      if (user) {
-          return done(null, user); // user found, return that user
-      } else {
-          // if there is no user found with that facebook id, create them
-          var newUser            = new User();
+            // if the user is found, then log them in
+            if (user) {
+                return done(null, user); // user found, return that user
+            } else {
+                // if there is no user found with that facebook id, create them
+                var newUser = new User();
 
-          // set all of the facebook information in our user model
-          newUser.facebook.id    = profile.id; // set the users facebook id
-          newUser.facebook.token = accessToken; // we will save the token that facebook provides to the user
-          newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
-          newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
+                // set all of the facebook information in our user model
+                newUser.facebook.id = profile.id; // set the users facebook id
+                newUser.facebook.token = accessToken; // we will save the token that facebook provides to the user
+                newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
+                newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
 
-          // save our user to the database
-          newUser.save(function(err) {
-              if (err)
-                  throw err;
+                // save our user to the database
+                newUser.save(function(err) {
+                    if (err)
+                        throw err;
 
-              // if successful, return the new user
-              return done(null, newUser);
-          });
-      }
-    });
+                    // if successful, return the new user
+                    return done(null, newUser);
+                });
+            }
+        });
 
-  }));
+    }));
 
 
-  passport.use(new GoogleStrategy({
+passport.use(new GoogleStrategy({
         clientID: '966622929148-22jointu1o40re7eebui79l2hfabfoj3.apps.googleusercontent.com',
         clientSecret: '92jJ6u4H81wlwBeVDjic-RBG',
         callbackURL: 'http://127.0.0.1:3000/auth/google/callback'

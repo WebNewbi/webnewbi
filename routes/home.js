@@ -10,7 +10,7 @@ router.get("/", function(req, res) {
         if (err) return res.json(err);
         res.render("index", {
             travels: travels,
-            username: req.session.name
+            user: req.user
         });
     });
 
@@ -120,7 +120,6 @@ router.get('/profile', isLoggedIn, function(req, res) {
 
 router.get('/logout', function(req, res) {
     req.logout();
-    req.session.destroy(function(err) {});
     res.redirect('/');
 });
 

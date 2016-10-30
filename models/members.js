@@ -10,7 +10,6 @@ var userSchema = mongoose.Schema({
         },
         password: {
             type: String
-
         },
     },
     facebook: {
@@ -123,5 +122,5 @@ userSchema.methods.hash = function(password) {
 };
 
 // model & export
-var User = mongoose.model("user", userSchema);
+var User = mongoose.model("users", userSchema);
 module.exports = User;

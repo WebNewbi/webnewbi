@@ -12,14 +12,17 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
-                <% if (typeof user != 'undefined'){%>
+                <% if (typeof locals.username != 'undefined'){%>
                     <li>
-                        <a href="/logout">Logout</a>
+                        <a href="/logout">
+                            <%= locals.username + ' Logout' %>
+                        </a>
+                        <li><a href="/new">New Data</a></li>
                     </li>
                     <% }else {%>
                         <li><a href="/login">Login</a></li>
                         <%}%>
-                            <li><a href="/new">New Data</a></li>
+
             </ul>
         </div>
     </div>

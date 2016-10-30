@@ -13,7 +13,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var crypto = require("crypto");
 var Member = require("./models/members");
-
+var UserProfile  = require("./public/userprofile");
 var flash = require('connect-flash');
 
 
@@ -72,6 +72,7 @@ app.use(flash());
 var passport = require('./config/passport');
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(UserProfile);
 
 // routes
 app.use("/", require("./routes/home"));

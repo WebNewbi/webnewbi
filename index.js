@@ -13,7 +13,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var crypto = require("crypto");
 var Member = require("./models/members");
-var UserProfile  = require("./public/userprofile");
+var UserProfile  = require("./public/module/userprofile");
 var flash = require('connect-flash');
 
 
@@ -66,7 +66,6 @@ var createSession = function createSession() {
 };
 
 app.use(createSession());
-
 app.use(flash());
 
 var passport = require('./config/passport');
@@ -75,7 +74,9 @@ app.use(passport.session());
 app.use(UserProfile);
 
 // routes
-app.use("/", require("./routes/home"));
+app.use("/",          require("./routes/home"));
+app.use("/login",     require("./routes/login"));
+app.use("/schedule",  require("./routes/schedule"));
 
 // Port setting
 app.listen(3000, function() {

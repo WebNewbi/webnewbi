@@ -1,11 +1,13 @@
 var mongoose = require("mongoose");
+
 var travelSchema = mongoose.Schema({
 
-    big: {
+    big: {//list
         type: String,
         required: true
     },
-    small: {
+    tag: {
+      // list
         type: String,
         required: true
     },

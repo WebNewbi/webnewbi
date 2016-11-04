@@ -44,7 +44,7 @@ passport.use('local-login',
             });
         }
     )
-);
+  );
 
 passport.use(new FacebookStrategy({
         clientID: '783257915147716', //process.env.CLIENT_ID,
@@ -88,7 +88,7 @@ passport.use(new FacebookStrategy({
 passport.use(new GoogleStrategy({
         clientID: '966622929148-22jointu1o40re7eebui79l2hfabfoj3.apps.googleusercontent.com',
         clientSecret: '92jJ6u4H81wlwBeVDjic-RBG',
-        callbackURL: 'http://127.0.0.1:3000/auth/google/callback'
+        callbackURL: 'http://127.0.0.1:3000/login/google/callback'
     },
     function(token, refreshToken, profile, done) {
 

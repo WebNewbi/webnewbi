@@ -10,11 +10,21 @@
 
     <body>
         <% include ./partials/nav %>
-            <form class="form-horizontal" action="/schedule/new" method="post">
+            <form class="form-horizontal" action="/new" method="post" id="newDataInputForm">
+                <script>
+                    $('#newDataInputForm').on('keyup keypress', function(e) {
+                        var keyCode = e.keyCode || e.which;
+                        if (keyCode === 13) {
+                            e.preventDefault();
+                            return false;
+                        }
+                    });
+
+                </script>
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="city">City</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="city" placeholder="city" onfocusout="onFocusout()" id="city">
+                        <input type="text" class="form-control" name="city" placeholder="city" id="city">
                     </div>
                     <script>
                     var input = (document.getElementById('city'));
@@ -22,13 +32,34 @@
                         types: ['(cities)']
                     });
 
-                        function onFocusout() {
-                          var place = autocomplete.getPlace();
-                          if( place === null ){
-                              $('#place').append()
-                          }
-                            var inputValue = $('#city').val();
-                        }
+                        $("input").focusin(function() {
+                            $(document).keydown(function(e) {
+                                var keyCode = event.keyCode ? event.keyCode : event.which;
+                                if (keyCode == 9) {
+                                    var firstResult = $(".pac-container .pac-item:first").text();
+                                    var stringMatched = $(".pac-container .pac-item:first").find(".pac-item-query").text();
+                                    firstResult = firstResult.replace(stringMatched, stringMatched + " ");
+                                    var geocoder = new google.maps.Geocoder();
+                                    geocoder.geocode({
+                                        "address": firstResult
+                                    }, function(results, status) {
+                                        if (status == google.maps.GeocoderStatus.OK) {
+                                            var lat = results[0].geometry.location.lat(),
+                                                lng = results[0].geometry.location.lng(),
+                                                placeName = results[0].address_components[0].long_name,
+                                                latlng = new google.maps.LatLng(lat, lng);
+
+                                            $(".pac-container .pac-item:first").addClass("pac-selected");
+                                            $(".pac-container").css("display", "none");
+                                            $("#city").val(firstResult);
+                                            $(".pac-container").css("visibility", "hidden");
+                                        }
+                                    });
+                                } else {
+                                    $(".pac-container").css("visibility", "visible");
+                                }
+                            });
+                        });
 
                     </script>
                 </div>

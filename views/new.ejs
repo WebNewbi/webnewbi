@@ -10,7 +10,7 @@
 
     <body>
         <% include ./partials/nav %>
-            <form class="form-horizontal" action="/new" method="post" id="newDataInputForm">
+            <form class="form-horizontal" action="/schedule/new" method="post" id="newDataInputForm">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="city">City</label>
                     <div class="col-sm-10">
@@ -43,6 +43,14 @@
                                             $(".pac-container").css("display", "none");
                                             $("#city").val(firstResult);
                                             $(".pac-container").css("visibility", "hidden");
+
+                                            $("#form").submit(function(eventObj) {
+                                                $('<input />').attr('type', 'hidden')
+                                                    .attr('name', "cityCode")
+                                                    .attr('value', results[0].cityCode)
+                                                    .appendTo('#newDataInputForm');
+                                                return true;
+                                            });
                                         }
                                     });
                                 } else {

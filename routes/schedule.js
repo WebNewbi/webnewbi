@@ -1,8 +1,6 @@
 var express   = require('express');
 var Schedule  = require("../models/schedule");
-var Geocode   = require("../models/geocode");
-var Links     = require("../models/link");
-var ScheduleUtil = require("../public/module/util");
+var ScheduleUtil = require("../public/module/schedule");
 var router = express.Router();
 
 // new

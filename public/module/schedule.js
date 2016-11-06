@@ -1,10 +1,13 @@
+var Schedule  = require("../../models/schedule");
+var Geocode   = require("../../models/geocode");
+var Links     = require("../../models/link");
 
 var util = {};
 
 util.createSchedule = function ( req, res ){
 
    var newSchedule = {
-     geocode  : req.body.geocode,
+     geocode  : req.body.cityCode,
 
      tags     : req.body.tags,
      start    : req.body.start,
@@ -23,6 +26,8 @@ util.createSchedule = function ( req, res ){
 
             // callback이 안와도 완료페이지로 redirect시도
         });
+
+
 };
 
 

@@ -17,10 +17,10 @@
                         <input type="text" class="form-control" name="city" placeholder="city" id="city">
                     </div>
                     <script>
-                    var input = (document.getElementById('city'));
-                    var autocomplete = new google.maps.places.Autocomplete(input, {
-                        types: ['(cities)']
-                    });
+                        var input = (document.getElementById('city'));
+                        var autocomplete = new google.maps.places.Autocomplete(input, {
+                            types: ['(cities)']
+                        });
 
 
 
@@ -111,12 +111,12 @@
 
                     <script>
                         $('#newDataInputForm').submit(function() {
-                            var input = (document.getElementById('tag')).value;
+                            var input = (document.getElementById('tags')).value;
 
                             var jbSplit = input.split(',');
                             for (var i in jbSplit) {
                                 $('<input />').attr('type', 'hidden')
-                                    .attr('name', "tag[" + i + "]")
+                                    .attr('name', "tags[" + i + "]")
                                     .attr('value', jbSplit[i])
                                     .appendTo('#newDataInputForm');
                             }

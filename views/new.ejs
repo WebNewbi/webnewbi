@@ -22,7 +22,9 @@
                             types: ['(cities)']
                         });
 
-                        $("input").focusin(function() {
+
+
+                        $("#city").focusin(function() {
                             $(document).keydown(function(e) {
                                 var keyCode = event.keyCode ? event.keyCode : event.which;
                                 if (keyCode == 9) {
@@ -98,7 +100,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="big">Tag</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="tag" placeholder="tag">
+                        <input type="text" class="form-control" placeholder="tag" , id="tag">
                     </div>
                 </div>
 
@@ -106,6 +108,22 @@
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-default">Submit</button>
                     </div>
+
+                    <script>
+                        $('#newDataInputForm').submit(function() {
+                            var input = (document.getElementById('tag')).value;
+
+                            var jbSplit = input.split(',');
+                            for (var i in jbSplit) {
+                                $('<input />').attr('type', 'hidden')
+                                    .attr('name', "tag[" + i + "]")
+                                    .attr('value', jbSplit[i])
+                                    .appendTo('#newDataInputForm');
+                            }
+                        });
+
+                    </script>
+
                 </div>
 
             </form>

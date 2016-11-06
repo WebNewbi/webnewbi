@@ -8,7 +8,7 @@ router.get("/new", function(req, res) {
     res.render("new");
 })
 .post("/new", function(req, res) {
-    ScheduleUtil.createSchedule( req, res);
+    ScheduleUtil.createSchedule( req, res);  
 });
 
 // search

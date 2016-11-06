@@ -17,12 +17,16 @@
                         <input type="text" class="form-control" name="city" placeholder="city" onfocusout="onFocusout()" id="city">
                     </div>
                     <script>
-                        var input = (document.getElementById('city'));
-                        var autocomplete = new google.maps.places.Autocomplete(input, {
-                            types: ['(cities)']
-                        });
+                    var input = (document.getElementById('city'));
+                    var autocomplete = new google.maps.places.Autocomplete(input, {
+                        types: ['(cities)']
+                    });
 
                         function onFocusout() {
+                          var place = autocomplete.getPlace();
+                          if( place === null ){
+                              $('#place').append()
+                          }
                             var inputValue = $('#city').val();
                         }
 

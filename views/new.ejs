@@ -47,10 +47,18 @@
                                             $(".pac-container").css("visibility", "hidden");
 
 
-                                            $('<input />').attr('type', 'hidden')
-                                                .attr('name', "cityCode")
-                                                .attr('value', results[0].place_id)
-                                                .appendTo('#newDataInputForm');
+                                            if ($('<input />').attr('name', "cityCode")) {
+                                                $('<input />').attr('type', 'hidden')
+                                                    .attr('name', "cityCode")
+                                                    .attr('value', results[0].place_id)
+                                                    .set('#newDataInputForm');
+                                            } else {
+                                                $('<input />').attr('type', 'hidden')
+                                                    .attr('name', "cityCode")
+                                                    .attr('value', results[0].place_id)
+                                                    .appendTo('#newDataInputForm');
+                                            }
+
                                         }
                                     });
                                 } else {

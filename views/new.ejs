@@ -11,16 +11,6 @@
     <body>
         <% include ./partials/nav %>
             <form class="form-horizontal" action="/new" method="post" id="newDataInputForm">
-                <script>
-                    $('#newDataInputForm').on('keyup keypress', function(e) {
-                        var keyCode = e.keyCode || e.which;
-                        if (keyCode === 13) {
-                            e.preventDefault();
-                            return false;
-                        }
-                    });
-
-                </script>
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="city">City</label>
                     <div class="col-sm-10">

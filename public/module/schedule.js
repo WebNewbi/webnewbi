@@ -23,6 +23,26 @@ util.createSchedule = function(req, res) {
         if (err) return res.json(err);
 
         var cityLink = {
+            'city.geocode': schedule.geocode
+        };
+        var update = {
+            $setOnInsert: {
+                'city.geocode': schedule.geocode
+            },
+            $addToSet: {
+                'city.name': req.body.city,
+                'links': schedule._id
+            }
+        };
+        var option = {
+            upsert: true
+        };
+        Links.findOneAndUpdate(cityLink, update, option, function(err, schedule) {
+            if (err) return res.json(err);
+        });
+
+
+        var cityLink = {
             city: {
                 geocode: schedule.geocode
             }

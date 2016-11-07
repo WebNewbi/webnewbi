@@ -22,11 +22,11 @@ util.createSchedule = function ( req, res ){
     var promise = Schedule.create(newSchedule, function(err, schedule) {
             if (err) return res.json(err);
 
-            var cityLink = { city : {geocode : schedule.geocode} };
-            var update = { $update : {city : {geocode : schedule.geocode }},
+            var cityLink = { 'city.geocode' : schedule.geocode };
+            var update = { $setOnInsert : {'city.geocode' : schedule.geocode},
                            $addToSet :
-                                    { city : {name : req.body.city },
-                                    links : schedule._id }};
+                                    { 'city.name' : req.body.city,
+                                      'links' : schedule._id }};
             var option = { upsert : true };
             Links.findOneAndUpdate( cityLink, update, option,  function(err, schedule) {
                     if (err) return res.json(err);

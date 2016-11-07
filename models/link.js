@@ -10,10 +10,7 @@ var linkSchema = mongoose.Schema({
                       },
                       message: '{VALUE} is empty!'
                     },},
-            name :  [String],
-                 required : true,
-                 lowercase : true
-
+            name :  [String]
           },
   tag : {
       type : String,

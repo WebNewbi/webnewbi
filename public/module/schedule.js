@@ -1,43 +1,85 @@
-var Schedule  = require("../../models/schedule");
-var Geocode   = require("../../models/geocode");
-var Links     = require("../../models/link");
+var Schedule = require("../../models/schedule");
+var Geocode = require("../../models/geocode");
+var Links = require("../../models/link");
+var async = require('async');
 
 var util = {};
 
-util.createSchedule = function ( req, res ){
+util.createSchedule = function(req, res) {
 
-   var newSchedule = {
-     geocode  : req.body.cityCode,
+    var newSchedule = {
+        geocode: req.body.cityCode,
 
-     tags     : req.body.tags,
-     start    : req.body.start,
-     end      : req.body.end,
-     comment  : req.body.comment
-   };
+        tags: req.body.tags,
+        start: req.body.start,
+        end: req.body.end,
+        comment: req.body.comment,
+    };
 
     var promise = Schedule.create(newSchedule, function(err, schedule) {
-            if (err) return res.json(err);
+        if (err) return res.json(err);
 
-            var cityLink = { 'city.geocode' : req.body.cityCode };
-            var update = { $setOnInsert : {'city.geocode' : req.body.cityCode },
-                           $addToSet :
-                                    { 'city.name' : req.body.city,
-                                      'links' : schedule._id }};
-            var option = { upsert : true };
-            Links.findOneAndUpdate( cityLsink, update, option,  function(err, schedule) {
-                    if (err) return res.json(err);
-                  });
 
-            for( var tagElement in req.body.tags ){
-              var tagLink = { 'tag' : tagElement };
-              var updateTag = { $setOnInsert : {'tag' : tagElement },
-                                     $addToSet :{'links' : schedule._id }};
-             Links.findOneAndUpdate(tagLink, updateTag, option, function(err, schedule) {
-                                             if (err) return res.json(err);
-                                           });
+        var option = {
+            upsert: true
+        };
+
+        var cityLink = {
+            'city.geocode': req.body.cityCode
+        };
+
+        var update = {
+            $setOnInsert: {
+                'city.geocode': req.body.cityCode
+            },
+            $addToSet: {
+                'city.name': req.body.city,
+                'links': schedule._id
             }
-            // callback이 안와도 완료페이지로 redirect시도
-        });
+        };
+        
+        async.series([
+                function(callback) {
+                    async.eachSeries(req.body.tags, function(tagElement, next) {
+                        var tagLink = {
+                            'tag': tagElement
+                        };
+                        var updateTag = {
+                            $setOnInsert: {
+                                'tag': tagElement
+                            },
+                            $addToSet: {
+                                'links': schedule._id
+                            }
+                        };
+                        Links.findOneAndUpdate(tagLink, updateTag, option, function(err, schedule) {
+                            if (err) return done(err);
+
+                            next();
+                        });
+                    }, function done(err, results) {
+                        console.log('iterating done');
+                        if (err) return callback(err);
+                        callback(null);
+                    })
+                },
+
+                function(callback) {
+                    Links.findOneAndUpdate(cityLink, update, option, function(err, schedule) {
+                        if (err) return callback(err);
+                        callback(null);
+                    });
+                }
+            ],
+            function(err, results) {
+                if (err) return res.json(err);
+
+                res.redirect("/");
+                console.log( err);
+                console.log('iterating done2222');
+            });
+
+    });
 
 
 };

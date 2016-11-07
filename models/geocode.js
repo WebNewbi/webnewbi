@@ -6,12 +6,12 @@ var geocodeSchema = mongoose.Schema({
         required: true,
         lowercase: true
     },
-    kr: {
-        type: String
-    },
-    us: {
-        type: String
-    },
+
+    cityname: {
+      type: String,
+      required : true,
+      lowercase : true
+    }
 });
 
 var Geocode = mongoose.model("geocode", geocodeSchema);

@@ -1,7 +1,7 @@
 var Schedule = require("../../models/schedule");
 var Geocode = require("../../models/geocode");
 var Links = require("../../models/link");
-
+async = require("async");
 var util = {};
 
 util.createSchedule = function(req, res) {
@@ -41,28 +41,6 @@ util.createSchedule = function(req, res) {
             if (err) return res.json(err);
         });
 
-
-        var cityLink = {
-            city: {
-                geocode: schedule.geocode
-            }
-        };
-        var update = {
-            $update: {
-                city: {
-                    geocode: schedule.geocode
-                }
-            },
-            $addToSet: {
-                city: {
-                    name: req.body.city
-                },
-                links: schedule._id
-            }
-        };
-        var option = {
-            upsert: true
-        };
         Links.findOneAndUpdate(cityLink, update, option, function(err, schedule) {
             if (err) return res.json(err);
         });
@@ -106,4 +84,4 @@ util.createLink = function (json, added, schedule, res ){
 };
 
 */
-module.exports = util;
+vamodule.exports = util;

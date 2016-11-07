@@ -1,7 +1,6 @@
 var Schedule = require("../../models/schedule");
 var Geocode = require("../../models/geocode");
 var Links = require("../../models/link");
-async = require("async");
 var util = {};
 
 util.createSchedule = function(req, res) {
@@ -41,11 +40,6 @@ util.createSchedule = function(req, res) {
             if (err) return res.json(err);
         });
 
-        Links.findOneAndUpdate(cityLink, update, option, function(err, schedule) {
-            if (err) return res.json(err);
-        });
-
-
         /*
                     for( var tagElement in req.body.tags ){
                       var tagLink  = { tag : tagElement };
@@ -84,4 +78,4 @@ util.createLink = function (json, added, schedule, res ){
 };
 
 */
-vamodule.exports = util;
+module.exports = util;

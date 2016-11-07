@@ -7,7 +7,7 @@ var scheduleSchema = mongoose.Schema({
         required: [true,"geo code is required!"]
     },
 
-    tags : [],
+    tags : [String],
 
     start: {
         type: Date,

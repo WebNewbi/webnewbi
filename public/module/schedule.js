@@ -15,46 +15,60 @@ util.createSchedule = function ( req, res ){
      comment  : req.body.comment
    };
 
+//   var newGeocode = { geocode : schedule.geocode, cityname : req.body.city };
+//   Geocode.create( newGeocode, function(err, geocode) {
+//   });
+
     var promise = Schedule.create(newSchedule, function(err, schedule) {
             if (err) return res.json(err);
 
-            var geocodeLink = { geocode : schedule.geocode };
-            util.attachLink( geocodeLink );
+            var cityLink = { city : {geocode : schedule.geocode} };
+            var update = { $update : {city : {geocode : schedule.geocode }},
+                           $addToSet :
+                                    { city : {name : req.body.city },
+                                    links : schedule._id }};
+            var option = { upsert : true };
+            Links.findOneAndUpdate( cityLink, update, option,  function(err, schedule) {
+                    if (err) return res.json(err);
+                  });
 
-            var tagLink  = { tag : Schedule.tag };
-            util.attachLink( tagLink );
 
+/*
+            for( var tagElement in req.body.tags ){
+              var tagLink  = { tag : tagElement };
+              util.attachLink( tagLink, schedule, res );
+            }
+*/
             // callback이 안와도 완료페이지로 redirect시도
         });
 
 
 };
 
-
-util.attachLink = function( json ){
+/*
+util.attachLink = function( json , added, schedule, res){
   Links.findOne( json ).exec(function(err, linkSchema){
       if (err) return res.json(err);
       if (linkSchema!==null){
-        util.addLink( linkSchema );
+        util.addLink( linkSchema, schedule );
       }
       else {
-        util.createLink( json, linkSchema );
+        util.createLink( json, schedule, res );
       }
   });
 
 };
 
-util.addLink = function (linkSchema){
-  link.links.push( linkSchema._id );
+util.addLink = function (linkSchema, added, schedule ){
+  linkSchema.push( added );
 };
 
-util.createLink = function (json, linkSchema){
-    json.links = [linkSchema._id];
-
+util.createLink = function (json, added, schedule, res ){
+    json.links = [schedule._id];
     Links.create( json, function( err, link ){
       if (err) return res.json(err);
     });
 };
 
-
+*/
 module.exports = util;

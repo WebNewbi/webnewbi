@@ -1,10 +1,35 @@
 var mongoose = require("mongoose");
 
 var linkSchema = mongoose.Schema({
-  cityString : { type : String, lowercase: true },
-  tag : { type : String, lowercase: true },
+  city : { geocode : {
+                type : String,
+                 lowercase: true,
+                 required : true,
+                 validate: {
+                      validator: function(v) {
+                        return v.length > 0;
+                      },
+                      message: '{VALUE} is empty!'
+                    },},
+            name :  [String],
+              //   required : true,
+            //     lowercase : true
+
+          },
+  tag : {
+      type : String,
+      lowercase: true,
+      validate: {
+          validator: function(v) {
+            return v.length > 0;
+          },
+          message: '{VALUE} is empty!'
+        },
+      },
+
   links : [String]
-});
+}
+);
 
 var Link = mongoose.model("link", linkSchema );
 

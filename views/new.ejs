@@ -10,6 +10,7 @@
 
     <body>
         <% include ./partials/nav %>
+            <ul id="results"></ul>
             <form class="form-horizontal" action="/schedule/new" method="post" id="newDataInputForm">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="city">City</label>
@@ -21,8 +22,6 @@
                         var autocomplete = new google.maps.places.Autocomplete(input, {
                             types: ['(cities)']
                         });
-
-
 
                         $("#city").focusin(function() {
                             $(document).keydown(function(e) {
@@ -117,6 +116,13 @@
 
                     <script>
                         $('#newDataInputForm').submit(function() {
+
+                            var cityCodeValue = $("#cityCode").attr('value');
+                            if ('' === cityCodeValue || typeof cityCodeValue === 'undefined') {
+                                $("#city").attr('placeholder', "input valid city");
+                                return false;
+                            }
+
                             var input = (document.getElementById('tags')).value;
 
                             var jbSplit = input.split(',');

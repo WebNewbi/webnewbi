@@ -14,16 +14,12 @@ util.createSchedule = function ( req, res ){
      end      : req.body.end,
      comment  : req.body.comment
    };
-
-//   var newGeocode = { geocode : schedule.geocode, cityname : req.body.city };
-//   Geocode.create( newGeocode, function(err, geocode) {
-//   });
-
+   
     var promise = Schedule.create(newSchedule, function(err, schedule) {
             if (err) return res.json(err);
 
-            var cityLink = { 'city.geocode' : schedule.geocode };
-            var update = { $setOnInsert : {'city.geocode' : schedule.geocode},
+            var cityLink = { 'city.geocode' : req.body.cityCode };
+            var update = { $setOnInsert : {'city.geocode' : req.body.cityCode },
                            $addToSet :
                                     { 'city.name' : req.body.city,
                                       'links' : schedule._id }};

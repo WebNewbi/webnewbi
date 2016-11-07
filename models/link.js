@@ -3,7 +3,6 @@ var mongoose = require("mongoose");
 var linkSchema = mongoose.Schema({
   city : { geocode : {
                 type : String,
-                 lowercase: true,
                  required : true,
                  validate: {
                       validator: function(v) {
@@ -12,8 +11,8 @@ var linkSchema = mongoose.Schema({
                       message: '{VALUE} is empty!'
                     },},
             name :  [String],
-              //   required : true,
-            //     lowercase : true
+                 required : true,
+                 lowercase : true
 
           },
   tag : {

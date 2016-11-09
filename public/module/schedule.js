@@ -69,7 +69,6 @@ util.createSchedule = function(req, res) {
                 if (err) return res.json(err);
 
                 res.redirect("/");
-                console.log(results);
                 console.log('iterating done2222');
             });
 

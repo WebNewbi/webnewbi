@@ -60,16 +60,30 @@ util.updateSchedule = function(req, res) {
                     },
                     function(callback) {
                         async.eachSeries(deleteTags, function(tagElement, next) {
-                                Links.update({
+                                Links.findOneAndUpdate({
                                     'tag': tagElement
                                 }, {
                                     "$pull": {
                                         "links": oldSchedule._id
-                                    }
+                                    },
+                                },
+                                {
+                                    new: true
                                 },
                                 function(err, link) {
                                     if (err) return done(err);
-                                    next();
+
+                                    if ( link !== null && link.links.length === 0 )
+                                    {
+                                      Links.remove( { _id: link._id }, function (err) {
+                                        if ( err ) return done(err);
+                                        next();
+                                      });
+                                    }
+                                    else {
+                                        next();
+                                    }
+
                                 });
                             },
                             function done(err) {

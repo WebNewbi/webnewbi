@@ -2,6 +2,7 @@ var Schedule = require("../../models/schedule");
 var Geocode = require("../../models/geocode");
 var Links = require("../../models/link");
 var async = require('async');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 var util = {};
 
@@ -63,11 +64,13 @@ util.updateSchedule = function(req, res) {
                                 Links.update({
                                     'tag': tagElement
                                 }, {
-                                    "$pullall": {
-                                        "links": oldSchedule.id
+                                    $pull: {
+                                        links: oldSchedule._id
                                     }
+                                }, function(err, link) {
+                                    if (err) return done(err);
+                                    next();
                                 });
-                                next();
                             },
                             function done(err) {
                                 console.log('delete done');

@@ -31,12 +31,12 @@ var scheduleSchema = mongoose.Schema({
         required: true
     },
 
+    createdAt: {type:Date, default:Date.now},
     ownerId: {
-        type: String,
+        type: mongoose.Schema.ObjectId, ref: 'users',
         required: true
     },
-
-});
+  });
 
 var Schedule = mongoose.model("schedule", scheduleSchema);
 

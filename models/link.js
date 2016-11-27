@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 
+
 var linkSchema = mongoose.Schema({
 
     city: {
@@ -27,8 +28,10 @@ var linkSchema = mongoose.Schema({
         },
     },
 
-    links: [String]
-});
+//  links : [String]
+  links : [{ type: mongoose.Schema.ObjectId, ref: 'schedule' }]
+}
+);
 
 var Link = mongoose.model("link", linkSchema);
 

@@ -33,7 +33,7 @@ var scheduleSchema = mongoose.Schema({
 
     createdAt: {type:Date, default:Date.now},
     ownerId: {
-        type: { type: mongoose.Schema.ObjectId, ref: 'users' },
+        type: mongoose.Schema.ObjectId, ref: 'users',
         required: true
     },
   });

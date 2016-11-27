@@ -4,11 +4,12 @@ var Schedule = require("../models/schedule");
 
 var router = express.Router();
 
+
 router.get("/", function(req, res) {
     Schedule.find({}, function(err, travels) {
         if (err) return res.json(err);
         res.render("index", {
-            travels: travels,
+            travels: travels, searchResult : false
         });
     });
 });

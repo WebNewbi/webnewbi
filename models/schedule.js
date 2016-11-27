@@ -24,7 +24,10 @@ var scheduleSchema = mongoose.Schema({
     comment: {
         type: String,
         required: true
-    }
+    },
+
+    createdAt: {type:Date, default:Date.now},
+    author : [{ type: mongoose.Schema.ObjectId, ref: 'users' }]
 });
 
 var Schedule = mongoose.model("schedule", scheduleSchema);

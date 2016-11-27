@@ -3,6 +3,7 @@ var Schedule = require("../models/schedule");
 var Geocode = require("../models/geocode");
 var Links = require("../models/link");
 var ScheduleUtil = require("../public/module/schedule");
+
 var router = express.Router();
 
 // new
@@ -12,6 +13,7 @@ router.get("/new", function(req, res) {
 .post("/new", function(req, res) {
     ScheduleUtil.createSchedule( req, res);
 });
+
 // search
 router.post("/search", function(req, res) {
     Schedule.find({}, function(err, travels) {
@@ -28,6 +30,9 @@ router.post("/search", function(req, res) {
 
 // myinfo
 
-
+// search
+router.get("/search/:string", function(req, res) {
+    ScheduleUtil.findScheduleByString( req, res);
+})
 
 module.exports = router;

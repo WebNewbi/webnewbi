@@ -66,19 +66,26 @@ util.updateSchedule = function(req, res) {
                                 Links.findOneAndUpdate({
                                         'tag': tagElement
                                     }, {
-                                        $pull: {
-                                            links: req.params.id
-                                        }
+                                        "$pull": {
+                                            "links": oldSchedule._id
+                                        },
                                     }, {
-                                        returnNewDocument: true
+                                        new: true
                                     },
-                                    function(err, result) {
+                                    function(err, link) {
                                         if (err) return done(err);
-                                        if (typeof result !== 'undefined' && result.links.length < 1) {
-                                            emptyLinksList.push(result._id);
+
+                                        if (link !== null && link.links.length === 0) {
+                                            Links.remove({
+                                                _id: link._id
+                                            }, function(err) {
+                                                if (err) return done(err);
+                                                next();
+                                            });
+                                        } else {
+                                            next();
                                         }
 
-                                        next();
                                     });
                             },
                             function done(err) {
@@ -87,20 +94,6 @@ util.updateSchedule = function(req, res) {
                                 callback(null);
                             });
                     },
-
-                    function(callback) {
-
-                        Links.remove({
-                                'tag': {
-                                    $in: emptyLinksList
-                                }
-                            },
-                            function(err, schedule) {
-                                if (err) return callback(err);
-                                callback(null);
-                            });
-                    },
-
 
                     function(callback) {
                         async.eachSeries(insertTags, function(tagElement, next) {

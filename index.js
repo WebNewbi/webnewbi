@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var morgan = require('morgan');
-
+var path = require('path');
 
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
@@ -72,6 +72,8 @@ var passport = require('./config/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(UserProfile);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
 app.use("/",          require("./routes/home"));

@@ -7,10 +7,10 @@ var ScheduleUtil = require("../public/module/schedule");
 var router = express.Router();
 
 // new
-router.get("/new", function(req, res) {
+router.get("/new", isLoggedIn, function(req, res) {
     res.render("new");
 })
-.post("/new", function(req, res) {
+.post("/new", isLoggedIn, function(req, res) {
     ScheduleUtil.createSchedule( req, res);
 });
 
@@ -31,8 +31,20 @@ router.post("/search", function(req, res) {
 // myinfo
 
 // search
-router.get("/search/:string", function(req, res) {
+router.get("/search", function(req, res) {
     ScheduleUtil.findScheduleByString( req, res);
 })
 
+router.get("/search/:input", function(req, res) {
+    ScheduleUtil.findLinkByString( req, res);
+})
+
 module.exports = router;
+
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/');
+}

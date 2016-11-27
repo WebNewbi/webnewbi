@@ -1,7 +1,7 @@
 <div class="container contact contact-index">
     <ul class="list-group">
         <% travels.forEach( function(results) {
-      if ( searchResult ){
+      if ( typeof searchResult !== 'undefined' && searchResult){
           travel = results.links
       }
       else{
@@ -26,7 +26,7 @@
                     <%= travel.comment %>
                 </p>
                 <p>
-                    <%= travel.author %>
+                    <%= travel.ownerId %>
                 </p>
                 <p>
                   <%= travel.tags %>

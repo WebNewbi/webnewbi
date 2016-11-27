@@ -14,10 +14,11 @@ router.get("/", function(req, res) {
     });
 });
 
-router.get("/mySchedule", function(req, res) {
-    Schedule.find({
-        'ownerId': req.session.id
-    }, function(err, travels) {
+router.get("/mySchedule", isLoggedIn, function(req, res) {
+    Schedule
+    .find({ 'ownerId': req.session.passport.user })
+    .populate( "users" )
+    .exec( function(err, travels) {
         if (err) return res.json(err);
         res.render("mySchedule", {
             travels: travels,
@@ -56,3 +57,11 @@ router.get('/logout', function(req, res) {
 });
 
 module.exports = router;
+
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/');
+}

@@ -7,11 +7,11 @@ var router = express.Router();
 
 // new
 router.get("/new", function(req, res) {
-    res.render("new");
-})
-.post("/new", function(req, res) {
-    ScheduleUtil.createSchedule( req, res);
-});
+        res.render("new");
+    })
+    .post("/new", function(req, res) {
+        ScheduleUtil.createSchedule(req, res);
+    });
 // search
 router.post("/search", function(req, res) {
     Schedule.find({}, function(err, travels) {
@@ -22,7 +22,32 @@ router.post("/search", function(req, res) {
     });
 });
 
+// show mySchedule
+router.get("/mySchedule", function(req, res) {
+    Schedule.find({
+        'ownerId': req.session.id
+    }, function(err, travels) {
+        if (err) return res.json(err);
+        res.render("mySchedule", {
+            travels: travels,
+        });
+    });
+});
+
 // edit
+router.get("/:id/edit", function(req, res) {
+        Schedule.findOne({
+            '_id': req.params.id
+        }, function(err, travel) {
+            if (err) return res.json(err);
+            res.render("edit", {
+                travel: travel,
+            });
+        });
+    })
+    .post("/:id/edit", function(req, res) {
+        ScheduleUtil.updateSchedule(req, res);
+    });
 
 // delete
 

@@ -2,23 +2,28 @@ var mongoose = require("mongoose");
 
 var scheduleSchema = mongoose.Schema({
 
-    geocode: {
+    cityName: {
         type: String,
-        required: [true,"geo code is required!"]
+        required: [true, "geo code is required!"]
     },
 
-    tags : [String],
+    geocode: {
+        type: String,
+        required: [true, "geo code is required!"]
+    },
+
+    tags: [String],
 
     start: {
         type: Date,
-        default:Date.now,
-        required:[true,"start date is required!"]
+        default: Date.now,
+        required: [true, "start date is required!"]
     },
 
     end: {
         type: Date,
-        default:Date.now,
-        required: [true,"end date is required!"]
+        default: Date.now,
+        required: [true, "end date is required!"]
     },
 
     comment: {
@@ -27,8 +32,11 @@ var scheduleSchema = mongoose.Schema({
     },
 
     createdAt: {type:Date, default:Date.now},
-    author : [{ type: mongoose.Schema.ObjectId, ref: 'users' }]
-});
+    ownerId: {
+        type: { type: mongoose.Schema.ObjectId, ref: 'users' },
+        required: true
+    },
+  });
 
 var Schedule = mongoose.model("schedule", scheduleSchema);
 

@@ -2,7 +2,6 @@ var Schedule = require("../../models/schedule");
 var Geocode = require("../../models/geocode");
 var Links = require("../../models/link");
 var async = require('async');
-var ObjectId = require('mongoose').Types.ObjectId;
 
 var util = {};
 
@@ -42,6 +41,9 @@ util.updateSchedule = function(req, res) {
                     insertTags.push(updateSchedule.tags[tag]);
                 }
             }
+
+            var emptyLinksList = [];
+
             async.series([
                     function(callback) {
 
@@ -61,16 +63,23 @@ util.updateSchedule = function(req, res) {
                     },
                     function(callback) {
                         async.eachSeries(deleteTags, function(tagElement, next) {
-                                Links.update({
-                                    'tag': tagElement
-                                }, {
-                                    $pull: {
-                                        links: oldSchedule._id
-                                    }
-                                }, function(err, link) {
-                                    if (err) return done(err);
-                                    next();
-                                });
+                                Links.findOneAndUpdate({
+                                        'tag': tagElement
+                                    }, {
+                                        $pull: {
+                                            links: req.params.id
+                                        }
+                                    }, {
+                                        returnNewDocument: true
+                                    },
+                                    function(err, result) {
+                                        if (err) return done(err);
+                                        if (typeof result !== 'undefined' && result.links.length < 1) {
+                                            emptyLinksList.push(result._id);
+                                        }
+
+                                        next();
+                                    });
                             },
                             function done(err) {
                                 console.log('delete done');
@@ -78,6 +87,20 @@ util.updateSchedule = function(req, res) {
                                 callback(null);
                             });
                     },
+
+                    function(callback) {
+
+                        Links.remove({
+                                'tag': {
+                                    $in: emptyLinksList
+                                }
+                            },
+                            function(err, schedule) {
+                                if (err) return callback(err);
+                                callback(null);
+                            });
+                    },
+
 
                     function(callback) {
                         async.eachSeries(insertTags, function(tagElement, next) {

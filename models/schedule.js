@@ -32,10 +32,17 @@ var scheduleSchema = mongoose.Schema({
     },
 
     createdAt: {type:Date, default:Date.now},
+
     ownerId: {
         type: mongoose.Schema.ObjectId, ref: 'users',
         required: true
     },
+
+    comments : [
+      {
+
+      }
+    ]
   });
 
 var Schedule = mongoose.model("schedule", scheduleSchema);

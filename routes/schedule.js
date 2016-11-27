@@ -25,10 +25,12 @@ router.post("/search", function(req, res) {
 });
 
 // show mySchedule
-router.get("/mySchedule", function(req, res) {
-    Schedule.find({
-        'ownerId': req.session.id
-    }, function(err, travels) {
+
+router.get("/mySchedule", isLoggedIn, function(req, res) {
+    Schedule
+    .find({ 'ownerId': req.session.passport.user })
+    .populate( "users" )
+    .exec( function(err, travels) {
         if (err) return res.json(err);
         res.render("mySchedule", {
             travels: travels,

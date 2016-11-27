@@ -14,17 +14,6 @@ router.get("/", function(req, res) {
     });
 });
 
-router.get("/mySchedule", isLoggedIn, function(req, res) {
-    Schedule
-    .find({ 'ownerId': req.session.passport.user })
-    .populate( "users" )
-    .exec( function(err, travels) {
-        if (err) return res.json(err);
-        res.render("mySchedule", {
-            travels: travels,
-        });
-    });
-});
 
 router.get("/signup", function(req, res) {
     res.render("signup");

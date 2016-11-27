@@ -6,10 +6,11 @@ var router = express.Router();
 
 
 router.get("/", function(req, res) {
-    Schedule.find({}, function(err, travels) {
+    Schedule.find({}, function(err, scheduls) {
         if (err) return res.json(err);
         res.render("index", {
-            travels: travels, searchResult : false
+            scheduls: scheduls,
+            searchResult: false
         });
     });
 });
@@ -46,3 +47,11 @@ router.get('/logout', function(req, res) {
 });
 
 module.exports = router;
+
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/');
+}

@@ -1,0 +1,45 @@
+
+
+
+
+
+<div class="jumbotron text-center">
+  <h1>Meet</h1>
+  <p>make a party.</p>
+  <form class="form-inline" id= "search" action="/schedule/search" method="get">
+    <script>
+    $('#search-input').autocomplete({
+            source: function(req,res) {
+                $.ajax({
+                    url: "http://127.0.0.1:3000/search/"+req.term,
+                    dataType: "jsonp",
+                    type: "GET",
+                    data: {
+                        term: req.term
+                    },
+                    success: function(data) {
+                        res($.map(data, function(item) {
+                            return {
+                                label: item.text,//text comes from a collection of mongo
+                                value: item.text
+                            };
+                        }));
+                    },
+                    error: function(xhr) {
+                        alert(xhr.status + ' : ' + xhr.statusText);
+                    }
+                });
+            },
+            select: function(event, ui) {
+                log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+            }
+        });
+    </script>
+    <div class="input-group">
+      <input name ="input" id="search-input" class="form-control" size="50" placeholder="Search city or tags" type="text" required>
+      <div class="input-group-btn">
+        <button type="submit" class="btn btn-danger" value ="search">Search</button>
+      </div>
+    </div>
+  </form>
+</div>

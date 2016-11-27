@@ -121,7 +121,7 @@ util.createSchedule = function(req, res) {
         start: req.body.start,
         end: req.body.end,
         comment: req.body.comment,
-        ownerId: req.session.id,
+        ownerId: req.session.passport.user,
     };
 
     var promise = Schedule.create(newSchedule, function(err, schedule) {
@@ -206,6 +206,23 @@ util.readScheduleById = function(req, res) {
 
     }); // findById
 };
+util.findLinkByString = function(req, res) {
+    Links.find({
+            "$or": [{
+                "tag": {
+                    "$regex": new RegExp(req.params.input, "i")
+                }
+            }, {
+                "city.name": {
+                    "$regex": new RegExp(req.params.input, "i")
+                }
+            }]
+        },
+        function(err, items) {
+            if (err) return res.json(err);
+            res.jsonp(items);
+        });
+};
 
 util.findScheduleByString = function(req, res) {
     Links.aggregate(
@@ -215,13 +232,15 @@ util.findScheduleByString = function(req, res) {
                 "$match": {
                     $or: [{
                         "tag": {
-                            "$regex": req.params.string + '*',
-                            "$options": "i"
+                            "$regex": new RegExp(req.query.input, "i")
                         }
                     }, {
                         "city.name": {
-                            "$regex": req.params.string + '*',
-                            "$options": "i"
+                            "$regex": new RegExp(req.query.input, "i")
+                                /*
+                                  "$regex": req.query.input + '*',
+                                  "$options": "i"
+                                  */
                         }
                     }]
                 }
@@ -232,13 +251,14 @@ util.findScheduleByString = function(req, res) {
                 "$unwind": "$links"
             },
 
+            // 중복제거
             // Group back as an array with only the matching elements
-          //  {
-          //      "$group": {
-          //          "_id": "$links", //"$_id",
-          //          "links":  {"$push": "$links" },
-          //      }
-          //  }
+            //  {
+            //      "$group": {
+            //          "_id": "$links", //"$_id",
+            //          "links":  {"$push": "$links" },
+            //      }
+            //  }
         ],
         function(err, results) {
             if (err) return res.json(err);
@@ -249,40 +269,44 @@ util.findScheduleByString = function(req, res) {
                 if (err) return res.json(err);
                 //res.json(results);
                 res.render("index", {
-                    travels: results, searchResult : true
+                    scheduls: results,
+                    searchResult: true
                 });
             });
-
-            /*
-                  Links
-            .findOne({ title: 'Once upon a timex.' })
-            .populate('_creator')
-            .exec(function (err, story) {
-              if (err) return handleError(err);
-              console.log('The creator is %s', story._creator.name);*/
-            // prints "The creator is Aaron"
-            //})
 
         }
     );
 };
 
 
-function createSearch(queries){
-  var findPost = {};
-  if(queries.searchType && queries.searchText && queries.searchText.length >= 3){
-    var searchTypes = queries.searchType.toLowerCase().split(",");
-    var postQueries = [];
-    if(searchTypes.indexOf("title")>=0){
-      postQueries.push({ title : { $regex : new RegExp(queries.searchText, "i") } });
+function createSearch(queries) {
+    var findPost = {};
+    if (queries.searchType && queries.searchText && queries.searchText.length >= 3) {
+        var searchTypes = queries.searchType.toLowerCase().split(",");
+        var postQueries = [];
+        if (searchTypes.indexOf("title") >= 0) {
+            postQueries.push({
+                title: {
+                    $regex: new RegExp(queries.searchText, "i")
+                }
+            });
+        }
+        if (searchTypes.indexOf("body") >= 0) {
+            postQueries.push({
+                body: {
+                    $regex: new RegExp(queries.searchText, "i")
+                }
+            });
+        }
+        if (postQueries.length > 0) findPost = {
+            $or: postQueries
+        };
     }
-    if(searchTypes.indexOf("body")>=0){
-      postQueries.push({ body : { $regex : new RegExp(queries.searchText, "i") } });
-    }
-    if(postQueries.length > 0) findPost = {$or:postQueries};
-  }
-  return { searchType:queries.searchType, searchText:queries.searchText,
-    findPost:findPost};
+    return {
+        searchType: queries.searchType,
+        searchText: queries.searchText,
+        findPost: findPost
+    };
 }
 
 module.exports = util;

@@ -5,7 +5,6 @@ var userSchema = mongoose.Schema({
     local: {
         email: {
             type: String,
-            unique: true
         },
         password: {
             type: String
@@ -25,7 +24,10 @@ var userSchema = mongoose.Schema({
         token: String,
     },
 
-    email: String,
+    email: {
+        type: String,
+        unique: true
+    },
     name: String
 }, {
     toObject: {

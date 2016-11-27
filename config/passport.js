@@ -49,7 +49,7 @@ passport.use('local-login',
 passport.use(new FacebookStrategy({
         clientID: '783257915147716', //process.env.CLIENT_ID,
         clientSecret: '450a7d3ae9d4ec901a56764e09f362ad', //process.env.CLIENT_SECRET,
-        callbackURL: 'http://localhost:3000/login/facebook/callback',
+        callbackURL: 'http://127.0.0.1:3000/login/facebook/callback',
         profileFields: ['id', 'displayName', 'photos', 'emails', 'name']
     },
     function(accessToken, refreshToken, profile, done) {

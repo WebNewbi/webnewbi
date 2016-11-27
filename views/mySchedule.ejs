@@ -13,26 +13,26 @@
                     <figure class="col-sm-6">
                         <div class="container contact contact-index">
                             <ul class="list-group">
-                                <% travels.forEach(function(travel) { %>
+                                <% scheduls.forEach(function(schedul) { %>
                                     <!-- 3 -->
                                     <li class="list-group-item">
                                         <p>
-                                            <%= travel.cityName %>
+                                            <%= schedul.cityName %>
                                         </p>
                                         <p>
-                                            <%= travel.start %>
+                                            <%= schedul.start %>
                                         </p>
                                         <p>
-                                            <%= travel.end %>
+                                            <%= schedul.end %>
                                         </p>
                                         <p>
-                                            <%= travel.comment %>
+                                            <%= schedul.comment %>
                                         </p>
                                         <p>
-                                            <%= travel.tags %>
+                                            <%= schedul.tags %>
                                         </p>
                                         <p>
-                                            <a href="/schedule/<%= travel._id %>/edit"> Edit </a>
+                                            <a href="/schedule/<%= schedul._id %>/edit"> Edit </a>
                                         </p>
                                     </li>
                                     <% }) %>

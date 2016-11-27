@@ -1,28 +1,28 @@
 <div class="container contact contact-index">
     <ul class="list-group">
-        <% travels.forEach( function(results) {
-      if ( searchResult ){
-          travel = results.links
+        <% scheduls.forEach( function(results) {
+      if ( typeof searchResult !== 'undefined' && searchResult){
+          schedul = results.links
       }
       else{
-          travel = results
+          schedul = results
       } %>
             <li class="list-group-item">
                 <p>
                     <p>
-                        <%= travel.cityName %>
+                        <%= schedul.cityName %>
                     </p>
                     <p>
-                        <%= travel.start %>
+                        <%= schedul.start %>
                     </p>
                     <p>
-                        <%= travel.end %>
+                        <%= schedul.end %>
                     </p>
                     <p>
-                        <%= travel.comment %>
+                        <%= schedul.comment %>
                     </p>
                     <p>
-                        <%= travel.tags %>
+                        <%= schedul.tags %>
                     </p>
             </li>
             <% }) %>

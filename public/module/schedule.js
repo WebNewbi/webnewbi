@@ -63,11 +63,14 @@ util.updateSchedule = function(req, res) {
                                 Links.update({
                                     'tag': tagElement
                                 }, {
-                                    "$pullall": {
-                                        "links": oldSchedule.id
+                                    "$pull": {
+                                        "links": oldSchedule._id
                                     }
+                                },
+                                function(err, link) {
+                                    if (err) return done(err);
+                                    next();
                                 });
-                                next();
                             },
                             function done(err) {
                                 console.log('delete done');
@@ -85,7 +88,7 @@ util.updateSchedule = function(req, res) {
                                             'tag': tagElement
                                         },
                                         $addToSet: {
-                                            'links': oldSchedule.id
+                                            'links': oldSchedule._id
                                         }
                                     }, {
                                         upsert: true

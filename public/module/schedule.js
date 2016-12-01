@@ -41,6 +41,9 @@ util.updateSchedule = function(req, res) {
                     insertTags.push(updateSchedule.tags[tag]);
                 }
             }
+
+            var emptyLinksList = [];
+
             async.series([
                     function(callback) {
 
@@ -61,30 +64,29 @@ util.updateSchedule = function(req, res) {
                     function(callback) {
                         async.eachSeries(deleteTags, function(tagElement, next) {
                                 Links.findOneAndUpdate({
-                                    'tag': tagElement
-                                }, {
-                                    "$pull": {
-                                        "links": oldSchedule._id
+                                        'tag': tagElement
+                                    }, {
+                                        "$pull": {
+                                            "links": oldSchedule._id
+                                        },
+                                    }, {
+                                        new: true
                                     },
-                                },
-                                {
-                                    new: true
-                                },
-                                function(err, link) {
-                                    if (err) return done(err);
+                                    function(err, link) {
+                                        if (err) return done(err);
 
-                                    if ( link !== null && link.links.length === 0 )
-                                    {
-                                      Links.remove( { _id: link._id }, function (err) {
-                                        if ( err ) return done(err);
-                                        next();
-                                      });
-                                    }
-                                    else {
-                                        next();
-                                    }
+                                        if (link !== null && link.links.length === 0) {
+                                            Links.remove({
+                                                _id: link._id
+                                            }, function(err) {
+                                                if (err) return done(err);
+                                                next();
+                                            });
+                                        } else {
+                                            next();
+                                        }
 
-                                });
+                                    });
                             },
                             function done(err) {
                                 console.log('delete done');
@@ -102,7 +104,7 @@ util.updateSchedule = function(req, res) {
                                             'tag': tagElement
                                         },
                                         $addToSet: {
-                                            'links': oldSchedule._id
+                                            'links': oldSchedule.id
                                         }
                                     }, {
                                         upsert: true

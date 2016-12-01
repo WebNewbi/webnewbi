@@ -24,7 +24,7 @@ header nav {
 
 .navbar {
     margin-bottom: 0;
-    background-color: #f4511e;
+    background-color: black;
     z-index: 9999;
     border: 0;
     font-size: 12px !important;
@@ -38,7 +38,7 @@ header nav {
 }
 
 .navbar-nav li a:hover, .navbar-nav li.active a {
-    color: #f4511e !important;
+    color: black !important;
     background-color: #fff !important;
 }
 
@@ -48,6 +48,6 @@ header nav {
 }
 
 .jumbotron {
-    background-color: #f4511e; /* Orange */
+    background-color: black; /* Orange */
     color: #ffffff;
 }

@@ -28,7 +28,7 @@ var scheduleSchema = mongoose.Schema({
 
     comment: {
         type: String,
-        required: true
+        required: true // 글자수 제한
     },
 
     createdAt: {type:Date, default:Date.now},
@@ -38,9 +38,13 @@ var scheduleSchema = mongoose.Schema({
         required: true
     },
 
+    pictures : [ {type : Buffer } ],
+    // 최대 참여 인원, 현재 참여 인원
+
     comments : [
       {
-
+        writer : { type: mongoose.Schema.ObjectId, ref: 'users',
+              required: true},
       }
     ]
   });

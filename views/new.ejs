@@ -11,7 +11,7 @@
     <body>
         <% include ./partials/nav %>
             <ul id="results"></ul>
-            <form class="form-horizontal" action="/schedule/new" method="post" id="newDataInputForm">
+            <form class="form-horizontal" action="/schedule/new" method="post" id="newDataInputForm" enctype="multipart/form-data">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="city">City</label>
                     <div class="col-sm-10">
@@ -103,9 +103,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="big">Tag</label>
+                    <label class="control-label col-sm-2" for="tag">Tag</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="tags" placeholder="tag">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="images">Images</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control" name="images" placeholder="images">
                     </div>
                 </div>
 

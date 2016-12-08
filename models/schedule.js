@@ -31,23 +31,31 @@ var scheduleSchema = mongoose.Schema({
         required: true // 글자수 제한
     },
 
-    createdAt: {type:Date, default:Date.now},
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
 
     ownerId: {
-        type: mongoose.Schema.ObjectId, ref: 'users',
+        type: mongoose.Schema.ObjectId,
+        ref: 'users',
         required: true
     },
 
-    pictures : [ {type : Buffer } ],
+    pictures: [{
+        binaryData: Buffer,
+        contentType: String
+    }],
     // 최대 참여 인원, 현재 참여 인원
 
-    comments : [
-      {
-        writer : { type: mongoose.Schema.ObjectId, ref: 'users',
-              required: true},
-      }
-    ]
-  });
+    comments: [{
+        writer: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'users',
+            required: true
+        },
+    }]
+});
 
 var Schedule = mongoose.model("schedule", scheduleSchema);
 

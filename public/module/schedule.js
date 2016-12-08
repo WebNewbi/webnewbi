@@ -2,6 +2,7 @@ var Schedule = require("../../models/schedule");
 var Geocode = require("../../models/geocode");
 var Links = require("../../models/link");
 var async = require('async');
+var fs = require('fs');
 
 var util = {};
 
@@ -12,6 +13,16 @@ util.updateSchedule = function(req, res) {
         start: req.body.start,
         end: req.body.end,
         comment: req.body.comment,
+    };
+
+    if (req.image.name) {
+        fs.readFile(req.image.path, function(err, data) {
+            var imageInfo = {
+                binaryData: data,
+                contentType: 'image/png'
+            };
+            updateSchedule.pictures.push(imageInfo);
+        });
     };
 
     var deleteTags = [];
@@ -141,6 +152,16 @@ util.createSchedule = function(req, res) {
         end: req.body.end,
         comment: req.body.comment,
         ownerId: req.session.passport.user,
+    };
+
+    if (req.body.images.path) {
+        fs.readFile(req.body.images.path, function(err, data) {
+            var imageInfo = {
+                binaryData: data,
+                contentType: 'image/png'
+            };
+            newSchedule.pictures.push(imageInfo);
+        });
     };
 
     var promise = Schedule.create(newSchedule, function(err, schedule) {

@@ -13,9 +13,8 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var crypto = require("crypto");
 var Member = require("./models/members");
-var UserProfile  = require("./public/module/userprofile");
+var UserProfile = require("./public/module/userprofile");
 var flash = require('connect-flash');
-
 
 var app = express();
 
@@ -38,7 +37,7 @@ app.use(morgan('dev'));
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: true,
 }));
 app.use(methodOverride("_method"));
 
@@ -76,9 +75,9 @@ app.use(UserProfile);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
-app.use("/",          require("./routes/home"));
-app.use("/login",     require("./routes/login"));
-app.use("/schedule",  require("./routes/schedule"));
+app.use("/", require("./routes/home"));
+app.use("/login", require("./routes/login"));
+app.use("/schedule", require("./routes/schedule"));
 
 // Port setting
 app.listen(3000, function() {

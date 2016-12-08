@@ -28,7 +28,13 @@ var userSchema = mongoose.Schema({
         type: String,
         unique: true
     },
-    name: String
+    name: String,
+
+    pictures: {
+        binaryData: Buffer,
+        contentType: String
+    }
+
 }, {
     toObject: {
         virtuals: true

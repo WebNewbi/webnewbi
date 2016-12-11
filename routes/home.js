@@ -12,7 +12,14 @@ router.get("/", function(req, res) {
             scheduls: scheduls,
             searchResult: false
         });
-    });
+      });
+});
+
+router.get("/test",function(req, res) {
+    Schedule.find({}, function(err, scheduls) {
+        if (err) return res.json(err);
+        res.send( scheduls);
+      });
 });
 
 

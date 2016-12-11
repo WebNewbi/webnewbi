@@ -68,6 +68,17 @@ router.get("/search/:input", function(req, res) {
     ScheduleUtil.findLinkByString(req, res);
 })
 
+var multer = require('multer');
+var storage = multer.memoryStorage();
+
+router.post('/simpleupload',  multer({ storage: storage }).single('images'), function(req,res){
+      console.log(req.body); //form fields
+      console.log(req.file); //form files
+      //res.status(204).end();
+
+      ScheduleUtil.createSchedule(req, res);
+});
+
 module.exports = router;
 
 

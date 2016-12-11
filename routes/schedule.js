@@ -4,9 +4,11 @@ var Geocode = require("../models/geocode");
 var Links = require("../models/link");
 var ScheduleUtil = require("../public/module/schedule");
 
-var multer    = require('multer');
-var storage    = multer.memoryStorage();
-var upload    = multer({ storage: storage });
+var multer = require('multer');
+var storage = multer.memoryStorage();
+var upload = multer({
+    storage: storage
+});
 
 var router = express.Router();
 
@@ -14,10 +16,10 @@ var router = express.Router();
 router.get("/new", isLoggedIn, function(req, res) {
         res.render("new");
     })
-    .post("/new", isLoggedIn, upload.single('images'), function(req,res){
-          console.log(req.body); //form fields
-          console.log(req.file); //form files
-          ScheduleUtil.createSchedule(req, res);
+    .post("/new", isLoggedIn, upload.array('images', 10), function(req, res) {
+        console.log(req.body); //form fields
+        console.log(req.files); //form files
+        ScheduleUtil.createSchedule(req, res);
     });
 
 // search

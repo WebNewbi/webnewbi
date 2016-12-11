@@ -112,7 +112,8 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="images">Images</label>
                     <div class="col-sm-10">
-                        <input type="file" class="form-control" name="images" placeholder="images">
+                        <input type="file" class="form-control" name="images" id="images" placeholder="images" multiple />
+                        <p id="imageList"></p>
                     </div>
                 </div>
 
@@ -139,6 +140,16 @@
                                     .attr('value', jbSplit[i])
                                     .appendTo('#newDataInputForm');
                             }
+                        });
+
+                        document.getElementById('images').addEventListener('change', function(e) {
+                            var list = document.getElementById('imageList');
+                            list.innerHTML = '';
+                            for (var i = 0; i < this.files.length; i++) {
+                                list.innerHTML += (i + 1) + '. ' + this.files[i].name + '\n';
+                            }
+                            if (list.innerHTML == '') list.style.display = 'none';
+                            else list.style.display = 'block';
                         });
 
                     </script>

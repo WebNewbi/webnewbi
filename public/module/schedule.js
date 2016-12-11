@@ -152,10 +152,19 @@ util.createSchedule = function(req, res) {
         end: req.body.end,
         comment: req.body.comment,
         ownerId: req.session.passport.user,
+        pictures : []
     };
 
-    if (req.body.images.path) {
-        fs.readFile(req.body.images.path, function(err, data) {
+    var imageInfo = {
+        binaryData: req.file.buffer,
+        contentType: req.file.mimetype
+    };
+
+    newSchedule.pictures.push(imageInfo);
+
+/*
+    if (req.file.buffer) {
+        fs.readFile(req.file.buffer, function(err, data) {
             var imageInfo = {
                 binaryData: data,
                 contentType: 'image/png'
@@ -164,6 +173,7 @@ util.createSchedule = function(req, res) {
         });
     };
 
+*/
     var promise = Schedule.create(newSchedule, function(err, schedule) {
         if (err) return res.json(err);
 

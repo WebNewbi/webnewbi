@@ -4,14 +4,20 @@ var Geocode = require("../models/geocode");
 var Links = require("../models/link");
 var ScheduleUtil = require("../public/module/schedule");
 
+var multer    = require('multer');
+var storage    = multer.memoryStorage();
+var upload    = multer({ storage: storage });
+
 var router = express.Router();
 
 // new
 router.get("/new", isLoggedIn, function(req, res) {
         res.render("new");
     })
-    .post("/new", isLoggedIn, function(req, res) {
-        ScheduleUtil.createSchedule(req, res);
+    .post("/new", isLoggedIn, upload.single('images'), function(req,res){
+          console.log(req.body); //form fields
+          console.log(req.file); //form files
+          ScheduleUtil.createSchedule(req, res);
     });
 
 // search
@@ -67,17 +73,6 @@ router.get("/search", function(req, res) {
 router.get("/search/:input", function(req, res) {
     ScheduleUtil.findLinkByString(req, res);
 })
-
-var multer = require('multer');
-var storage = multer.memoryStorage();
-
-router.post('/simpleupload',  multer({ storage: storage }).single('images'), function(req,res){
-      console.log(req.body); //form fields
-      console.log(req.file); //form files
-      //res.status(204).end();
-
-      ScheduleUtil.createSchedule(req, res);
-});
 
 module.exports = router;
 

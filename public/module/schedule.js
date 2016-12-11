@@ -162,18 +162,6 @@ util.createSchedule = function(req, res) {
 
     newSchedule.pictures.push(imageInfo);
 
-/*
-    if (req.file.buffer) {
-        fs.readFile(req.file.buffer, function(err, data) {
-            var imageInfo = {
-                binaryData: data,
-                contentType: 'image/png'
-            };
-            newSchedule.pictures.push(imageInfo);
-        });
-    };
-
-*/
     var promise = Schedule.create(newSchedule, function(err, schedule) {
         if (err) return res.json(err);
 

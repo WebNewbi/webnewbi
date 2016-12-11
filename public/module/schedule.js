@@ -152,15 +152,17 @@ util.createSchedule = function(req, res) {
         end: req.body.end,
         comment: req.body.comment,
         ownerId: req.session.passport.user,
-        pictures : []
+        pictures: []
     };
 
-    var imageInfo = {
-        binaryData: req.file.buffer,
-        contentType: req.file.mimetype
-    };
+    for (var index in req.files) {
+        var imageInfo = {
+            binaryData: req.files[index].buffer,
+            contentType: req.files[index].mimetype
+        };
 
-    newSchedule.pictures.push(imageInfo);
+        newSchedule.pictures.push(imageInfo);
+    }
 
     var promise = Schedule.create(newSchedule, function(err, schedule) {
         if (err) return res.json(err);

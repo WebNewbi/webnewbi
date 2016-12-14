@@ -12,14 +12,14 @@ router.get("/", function(req, res) {
             scheduls: scheduls,
             searchResult: false
         });
-      });
+    });
 });
 
-router.get("/test",function(req, res) {
+router.get("/test", function(req, res) {
     Schedule.find({}, function(err, scheduls) {
         if (err) return res.json(err);
-        res.send( scheduls);
-      });
+        res.send(scheduls);
+    });
 });
 
 
@@ -45,6 +45,28 @@ router.post("/signup", function(req, res) {
                     res.redirect("/login");
                 });
         }
+    });
+});
+
+router.get("/profile", function(req, res) {
+    Member.findOne({
+        '_id': req.session.passport.user
+    }, function(err, user) {
+        if (err) return res.json(err);
+        res.render("profile", {
+            user: user
+        });
+    });
+});
+
+router.get("/editProfile", function(req, res) {
+    Member.findOne({
+        '_id': req.session.passport.user
+    }, function(err, user) {
+        if (err) return res.json(err);
+        res.render("editProfile", {
+            user: user
+        });
     });
 });
 

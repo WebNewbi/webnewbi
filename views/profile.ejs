@@ -21,51 +21,84 @@
             <div class="page-header text-center">
                 <h1><span class="fa fa-anchor"></span> Profile Page</h1>
                 <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+                <a href="/editProfile" class="btn btn-default btn-sm">Edit Profile</a>
             </div>
 
             <div class="row">
+                <div class="col-sm-4">
+                    <div class="well">
+                        <% if( typeof user.pictures.binaryData !== 'undefined') { %>
+                            <img src="data:image/jpeg;base64,<%=user.pictures.binaryData.toString('base64') %>" />
+                            <% }  %>
+                    </div>
+                </div>
 
                 <!-- FACEBOOK INFORMATION -->
-                <div class="col-sm-6">
-                    <div class="well">
-                        <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="well">
+                            <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
 
-                        <p>
-                            <strong>id</strong>:
-                            <%= user.facebook.id %><br>
-                                <strong>token</strong>:
-                                <%= user.facebook.token %><br>
-                                    <strong>email</strong>:
-                                    <%= user.facebook.email %><br>
-                                        <strong>name</strong>:
-                                        <%= user.facebook.name %>
-                        </p>
+                            <p>
+                                <strong>id</strong>:
+                                <%= user.facebook.id %><br>
+                                    <strong>token</strong>:
+                                    <%= user.facebook.token %><br>
+                                        <strong>email</strong>:
+                                        <%= user.facebook.email %><br>
+                                            <strong>name</strong>:
+                                            <%= user.facebook.name %>
+                            </p>
 
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="well">
+                            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+
+                            <p>
+                                <strong>id</strong>:
+                                <%= user.google.id %><br>
+                                    <strong>token</strong>:
+                                    <%= user.google.token %><br>
+                                        <strong>email</strong>:
+                                        <%= user.google.email %><br>
+                                            <strong>name</strong>:
+                                            <%= user.google.name %>
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="well">
+                            <h3 class="text-danger"><span class="fa fa-local"></span>Local</h3>
+
+                            <p>
+                                <strong>email</strong>:
+                                <%= user.local.email %><br>
+                                    <strong>name</strong>:
+                                    <%= user.name %><br>
+                            </p>
+
+                        </div>
                     </div>
                 </div>
-
-                <div class="col-sm-6">
-                    <div class="well">
-                        <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
-
-                        <p>
-                            <strong>id</strong>:
-                            <%= user.google.id %><br>
-                                <strong>token</strong>:
-                                <%= user.google.token %><br>
-                                    <strong>email</strong>:
-                                    <%= user.google.email %><br>
-                                        <strong>name</strong>:
-                                        <%= user.google.name %>
-                        </p>
-
-                    </div>
-                </div>
-
-
             </div>
 
         </div>
     </body>
+
+</html>
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</body>
 
 </html>

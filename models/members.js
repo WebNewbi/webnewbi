@@ -30,7 +30,7 @@ var userSchema = mongoose.Schema({
     },
     name: String,
 
-    pictures: {
+    picture: {
         binaryData: Buffer,
         contentType: String
     }

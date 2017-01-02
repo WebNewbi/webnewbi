@@ -4,6 +4,11 @@ var Schedule = require("../models/schedule");
 
 var router = express.Router();
 
+var multer = require('multer');
+var storage = multer.memoryStorage();
+var upload = multer({
+    storage: storage
+});
 
 router.get("/", function(req, res) {
     Schedule.find({}, function(err, scheduls) {
@@ -60,15 +65,39 @@ router.get("/profile", function(req, res) {
 });
 
 router.get("/editProfile", function(req, res) {
-    Member.findOne({
-        '_id': req.session.passport.user
-    }, function(err, user) {
-        if (err) return res.json(err);
-        res.render("editProfile", {
-            user: user
+        Member.findOne({
+            '_id': req.session.passport.user
+        }, function(err, user) {
+            if (err) return res.json(err);
+            res.render("editProfile", {
+                user: user
+            });
         });
+    })
+    .post("/editProfile", isLoggedIn, upload.single('picture'), function(req, res) {
+        var profilePicture = {};
+        if (req.file) {
+            profilePicture = {
+                binaryData: req.file.buffer,
+                contentType: req.file.mimetype
+            };
+        };
+        console.log(profilePicture);
+        Member.findOneAndUpdate({
+                '_id': req.params.id
+            }, {
+                $set: {
+                    'name': req.body.name,
+                    'picture': profilePicture
+                }
+            },
+            function(err, link) {
+                if (err) return done(err);
+                console.log("findOneAndUpdate");
+            }
+        );
+        res.redirect('/');
     });
-});
 
 router.get('/logout', function(req, res) {
     req.logout();

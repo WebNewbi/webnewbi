@@ -15,90 +15,48 @@
         </style>
     </head>
 
+    <style>
+        .bg-1 {
+            background-color: #1abc9c;
+            /* Green */
+            color: #ffffff;
+        }
+
+    </style>
+
     <body>
-        <div class="container">
+        <% include partials/nav %>
+            <div class="container-fluid bg-1 text-center">
+                <h3>Edit Profile</h3>
+                <form class="form-horizontal" action="/editProfile" method="post" id="newDataInputForm" enctype="multipart/form-data">
 
-            <div class="page-header text-center">
-                <h1><span class="fa fa-anchor"></span> Edit Profile Page</h1>
-                <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-                <a href="/profile" class="btn btn-default btn-sm">Complete</a>
+                    <% if ( typeof user.picture.binaryData !== 'undefined' ) { %>
+                        <img src="data:image/jpeg;base64,<%=user.picture.binaryData.toString( 'base64') %>" class="img-circle" />
+                        <%  } else {%>
+                            <img src="https://static.nid.naver.com/images/web/user/default.png" class="img-circle" />
+                            <% } %>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-5" for="picture">Picture</label>
+                                    <div class="col-sm-2">
+                                        <input type="file" class="form-control" name="picture" id="picture" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-5" for="name">Name</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" name="name" id="name" value=<%=user.name %> placeholder=
+                                        <%=user.name %> >
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-offset-4 col-sm-4">
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                </div>
+
+                </form>
             </div>
-
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="well">
-                        <% if( typeof user.pictures.binaryData !== 'undefined') { %>
-                            <img src="data:image/jpeg;base64,<%=user.pictures.binaryData.toString('base64') %>" />
-                            <% }  %>
-                    </div>
-                </div>
-
-                <!-- FACEBOOK INFORMATION -->
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="well">
-                            <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
-
-                            <p>
-                                <strong>id</strong>:
-                                <%= user.facebook.id %><br>
-                                    <strong>token</strong>:
-                                    <%= user.facebook.token %><br>
-                                        <strong>email</strong>:
-                                        <%= user.facebook.email %><br>
-                                            <strong>name</strong>:
-                                            <%= user.facebook.name %>
-                            </p>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <div class="well">
-                            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
-
-                            <p>
-                                <strong>id</strong>:
-                                <%= user.google.id %><br>
-                                    <strong>token</strong>:
-                                    <%= user.google.token %><br>
-                                        <strong>email</strong>:
-                                        <%= user.google.email %><br>
-                                            <strong>name</strong>:
-                                            <%= user.google.name %>
-                            </p>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <div class="well">
-                            <h3 class="text-danger"><span class="fa fa-local"></span>Local</h3>
-
-                            <p>
-                                <strong>email</strong>:
-                                <%= user.local.email %><br>
-                                    <strong>name</strong>:
-                                    <%= user.name %><br>
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </body>
-
-</html>
-</p>
-
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</body>
 
 </html>

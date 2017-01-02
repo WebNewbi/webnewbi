@@ -31,9 +31,12 @@
                                         <p>
                                             <%= schedul.tags %>
                                         </p>
-                                        <p>
-                                            <a href="/schedule/<%= schedul._id %>/edit"> Edit </a>
-                                        </p>
+                                        <% schedul.pictures.forEach( function(picture) { %>
+                                            <img src="data:image/jpeg;base64,<%=picture.binaryData.toString('base64') %>" />
+                                            <% }) %>
+                                                <p>
+                                                    <a href="/schedule/<%= schedul._id %>/edit"> Edit </a>
+                                                </p>
                                     </li>
                                     <% }) %>
                             </ul>

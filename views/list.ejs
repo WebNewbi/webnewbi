@@ -24,9 +24,16 @@
                     <p>
                         <%= schedul.tags %>
                     </p>
+                  <p>
                     <% schedul.pictures.forEach( function(picture) { %>
                         <img src="data:image/jpeg;base64,<%=picture.binaryData.toString('base64') %>" />
                         <% }) %>
+                  </p>
+
+                  <p>
+                      <a href="/schedule/view/<%= schedul._id %>"> View </a>
+                  </p>
+
             </li>
             <% }) %>
     </ul>

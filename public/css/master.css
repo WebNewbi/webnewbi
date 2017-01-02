@@ -2,8 +2,8 @@ body {
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
   align-items:  center;
-  margin-left: 10px;
-  margin-right: 10px;
+  /*margin-left: 10px;
+  margin-right: 10px;*/
 }
 
 header .row,
@@ -50,4 +50,6 @@ header nav {
 .jumbotron {
     background-color: black; /* Orange */
     color: #ffffff;
+    padding: 100px 25px;
+    font-family: Montserrat, sans-serif;
 }

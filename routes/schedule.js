@@ -32,8 +32,28 @@ router.post("/search", function(req, res) {
     });
 });
 
-// show mySchedule
+// view specific schedule
+router.get("/view/:id", function(req, res) {
+        Schedule.findById( req.params.id )
+        .populate(['users','comments.writer'])
+        .exec( function(err, schedule) {
+            if (err) return res.json(err);
+            res.render( "viewSchedule", { schedule : schedule, user:req.session.passport.user});
+        });
+    })
+    // post comment
+    .post('/comments/:id', function(req,res){
+      var newComment = req.body.comment;
+      newComment.writer = req.user._id;
+      newComment.createdAt = new Date();
 
+      Schedule.update({_id:req.params.id},{$push:{comments:newComment}},function(err,post){
+        if(err) return res.json({success:false, message:err});
+        res.redirect('/schedule/view/'+req.params.id);
+        });
+      });
+
+// show mySchedule
 router.get("/mySchedule", isLoggedIn, function(req, res) {
     Schedule
         .find({
@@ -50,9 +70,8 @@ router.get("/mySchedule", isLoggedIn, function(req, res) {
 
 // edit
 router.get("/:id/edit", function(req, res) {
-        Schedule.findOne({
-            '_id': req.params.id
-        }, function(err, schedul) {
+        Schedule.findById(req.params.id )
+        .exec( function(err, schedul) {
             if (err) return res.json(err);
             res.render("edit", {
                 schedul: schedul,

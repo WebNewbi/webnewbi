@@ -53,9 +53,9 @@ router.post("/signup", function(req, res) {
     });
 });
 
-router.get("/profile", function(req, res) {
+router.get("/profile/:id", function(req, res) {
     Member.findOne({
-        '_id': req.session.passport.user
+        '_id': req.params.id
     }, function(err, user) {
         if (err) return res.json(err);
         res.render("profile", {
@@ -84,7 +84,7 @@ router.get("/editProfile", function(req, res) {
         };
         console.log(profilePicture);
         Member.findOneAndUpdate({
-                '_id': req.params.id
+                '_id': req.session.passport.user
             }, {
                 $set: {
                     'name': req.body.name,
@@ -93,10 +93,11 @@ router.get("/editProfile", function(req, res) {
             },
             function(err, link) {
                 if (err) return done(err);
-                console.log("findOneAndUpdate");
+                if (link) console.log("findOneAndUpdate");
+                res.redirect('/');
             }
         );
-        res.redirect('/');
+
     });
 
 router.get('/logout', function(req, res) {

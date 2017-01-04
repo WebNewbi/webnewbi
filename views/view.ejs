@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <% include ../partials/head %>
+
+</head>
+
+<body>
+    <% include ../partials/nav %>
+    <!--
+        <div class="comments">
+            <h4>Comments (<%= schedule.comments?schedule.comments.length:"0" %>)</h4>
+            <% if(schedule.comments) { %>
+                <% schedule.comments.forEach(function(comment){ %>
+                    <div class="comment">
+                        <div class="top">
+                            <b><%= comment.writer.name %></b> (
+                            <%= schedule.getFormattedTime(comment.createdAt) %>,
+                                <%= schedule.getFormattedDate(comment.createdAt) %>)
+                                    <% if(user && user.equals(comment.writer._id)) { %>
+                                        <form class="delete" method="schedule" action="/schedules/<%=schedule._id%>/comments/<%=comment._id%>?_method=delete&<%= urlQuery %>">
+                                            <button type="button" onclick="confirm('Your comment will be deleted')?this.parentElement.submit():null;">
+                    x
+                  </button>
+                                        </form>
+                                        <% } %>
+                        </div>
+                        <div class="body">
+                            <%= comment.body %>
+                        </div>
+                    </div>
+                    <% }) %>
+                        <% } %>
+                            <form class="addComment checkValidation" action="/schedules/<%=schedule._id%>/comments?<%= urlQuery %>" method="schedule">
+                                <textarea class="cvRequired" type="text" name="comment[body]" cvRqErrMsg="comments is empty." cvRqErrTo="#cvErrTitle" <%=u ser? "": "disabled" %>
+          placeholder="<%= user?"Add comment here":"Please login to make a comment" %>"></textarea>
+                                <button type="submit" <%=u ser? "": "disabled" %>>Comment</button>
+                                <div id="cvErrTitle" class="message"></div>
+                            </form>
+        </div>
+
+        <% include ../partials/footer %>
+      -->
+</body>
+
+</html>

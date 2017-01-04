@@ -54,6 +54,9 @@ var scheduleSchema = mongoose.Schema({
             ref: 'users',
             required: true
         },
+        body : { type : String, required: true },
+        createdAt : {type : Date, default: Date.Now, required: true }
+
     }]
 });
 

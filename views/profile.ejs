@@ -30,7 +30,7 @@
             <div class="container-fluid bg-1 text-center">
                 <h3>Who Am I?</h3>
                 <% if ( typeof user.picture.binaryData !== 'undefined' ) { %>
-                    <img src="data:image/jpeg;base64,<%=user.picture.binaryData.toString('base64') %>" class="img-circle" />
+                    <img src="data:image/jpeg;base64,<%=user.picture.binaryData.toString('base64') %>" class="img-circle" width="300" height="auto" />
                     <%  } else {%>
                         <img src="https://static.nid.naver.com/images/web/user/default.png" class="img-circle" />
                         <% } %>

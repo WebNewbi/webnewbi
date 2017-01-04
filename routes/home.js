@@ -75,25 +75,26 @@ router.get("/editProfile", function(req, res) {
         });
     })
     .post("/editProfile", isLoggedIn, upload.single('picture'), function(req, res) {
-        var profilePicture = {};
+
+        var updateInfo = {
+            'name': req.body.name,
+        }
+
         if (req.file) {
-            profilePicture = {
+            updateInfo.picture = {
                 binaryData: req.file.buffer,
                 contentType: req.file.mimetype
             };
-        };
-        console.log(profilePicture);
+        }
+
         Member.findOneAndUpdate({
                 '_id': req.session.passport.user
             }, {
-                $set: {
-                    'name': req.body.name,
-                    'picture': profilePicture
-                }
+                $set: updateInfo
             },
             function(err, link) {
                 if (err) return done(err);
-                if (link) console.log("findOneAndUpdate");
+
                 res.redirect('/');
             }
         );

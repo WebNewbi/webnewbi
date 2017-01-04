@@ -25,7 +25,7 @@
                         <%= schedul.tags %>
                     </p>
                     <% schedul.pictures.forEach( function(picture) { %>
-                        <img src="data:image/jpeg;base64,<%=picture.binaryData.toString('base64') %>" />
+                        <img src="data:image/jpeg;base64,<%=picture.binaryData.toString('base64') %>" width="400" height="auto" />
                         <% }) %>
             </li>
             <% }) %>

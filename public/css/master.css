@@ -3,7 +3,13 @@ body {
   font-weight: 300;
   align-items:  center;
   /*margin-left: 10px;
-  margin-right: 10px;*/
+margin-right: 10px;*/
+  word-wrap: break-word;
+}
+
+.container {
+
+    padding-top: 30px;
 }
 
 header .row,

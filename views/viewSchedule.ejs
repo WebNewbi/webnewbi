@@ -29,8 +29,12 @@
                                     </p>
                                     <p>
                                         <%= schedule.tags %>
-                                    </p
-
+                                    </p>
+                                    <p>
+                                      <% schedule.pictures.forEach( function(picture) { %>
+                                          <img src="data:image/jpeg;base64,<%=picture.binaryData.toString('base64') %>" />
+                                          <% }) %>
+                                    </p>
                                 </li>
 
 
@@ -41,7 +45,11 @@
                                               <div class="comment">
                                                   <div class="top">
                                                     <b><%= comment.writer.name %></b> (<%= comment.createdAt %>)
-
+                                                    <% if(user && user.equals( comment.writer._id) ) { %>
+                                                    <form class="delete" method="post" action="/schedule/<%=schedule._id%>/comments/<%=comment._id%>?_method=delete">
+                                                        <button type="button" onclick="confirm('Your comment will be deleted')?this.parentElement.submit():null;">X</button>
+                                                    </form>
+                                                    <% } %>
                                                 </div>
                                                 <div class="body">
                                                   <%= comment.body %>

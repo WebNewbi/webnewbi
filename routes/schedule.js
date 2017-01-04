@@ -32,13 +32,13 @@ router.post("/search", function(req, res) {
     });
 });
 
-// view specific schedule
-router.get("/view/:id", function(req, res) {
+// show specific schedule
+router.get("/:id", function(req, res) {
         Schedule.findById( req.params.id )
         .populate(['users','comments.writer'])
         .exec( function(err, schedule) {
             if (err) return res.json(err);
-            res.render( "viewSchedule", { schedule : schedule, user:req.session.passport.user});
+            res.render( "viewSchedule", { schedule : schedule, user:req.user});
         });
     })
     // post comment
@@ -49,9 +49,17 @@ router.get("/view/:id", function(req, res) {
 
       Schedule.update({_id:req.params.id},{$push:{comments:newComment}},function(err,post){
         if(err) return res.json({success:false, message:err});
-        res.redirect('/schedule/view/'+req.params.id);
+        res.redirect('/schedule/'+req.params.id);
         });
+      })
+      // destroy comment
+      .delete('/:scheduleId/comments/:commentId', function(req,res){
+          Schedule.update({_id:req.params.scheduleId},{$pull:{comments:{_id:req.params.commentId}}},
+              function(err,post){
+                  if(err) return res.json({success:false, message:err});
+                  res.redirect('/schedule/'+req.params.scheduleId);
       });
+  });
 
 // show mySchedule
 router.get("/mySchedule", isLoggedIn, function(req, res) {

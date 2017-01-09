@@ -27,10 +27,17 @@
                         <img src="https://static.nid.naver.com/images/web/user/default.png" class="img-circle" />
                         <% } %>
                             <h3><%= user.name %></h3>
-                            <p>
-                                <a href="/editProfile"> Edit </a>
-                                <a href="/editProfile"> Note </a>
-                            </p>
+                            <% if(myInfo && myInfo.equals( user._id) ) { %>
+                              <p>
+                                  <a href="/editProfile"> Edit </a>
+                                  <a href="/editProfile"> Note </a>
+                              </p>
+                            <% }else{ %>
+                              <p>
+                                  <a href="/sendMessage"> Send Message </a>
+                              </p>
+                              <% } %>
+
             </div>
     </body>
 

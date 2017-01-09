@@ -48,67 +48,44 @@ router.post("/search", function(req, res) {
 });
 
 // show specific schedule
-router.get("/:id", function(req, res) {
-        Schedule.findById(req.params.id)
-            .populate('comments.writer')
-            .populate('ownerId')
-            .exec(function(err, schedule) {
-                if (err) return res.json(err);
-                res.render("viewSchedule", {
-                    schedule: schedule,
-                    user: req.user
-                });
-            });
-    })
-    // post comment
-    .post('/comments/:id', function(req, res) {
-        var newComment = req.body.comment;
-        newComment.writer = req.user._id;
-        newComment.createdAt = new Date();
-
-        Schedule.update({
-            _id: req.params.id
-        }, {
-            $push: {
-                comments: newComment
-            }
-        }, function(err, post) {
-            if (err) return res.json({
-                success: false,
-                message: err
-            });
-            res.redirect('/schedule/' + req.params.id);
+router.get("/:id/view", function(req, res) {
+        Schedule.findById( req.params.id )
+        .populate('comments.writer')
+        .populate('ownerId')
+        .exec( function(err, schedule) {
+            if (err) return res.json(err);
+            res.render( "viewSchedule", { schedule : schedule, user:req.user});
         });
     })
-    // destroy comment
-    .delete('/:scheduleId/comments/:commentId', function(req, res) {
-        Schedule.update({
-                _id: req.params.scheduleId
-            }, {
-                $pull: {
-                    comments: {
-                        _id: req.params.commentId
-                    }
-                }
-            },
-            function(err, post) {
-                if (err) return res.json({
-                    success: false,
-                    message: err
-                });
-                res.redirect('/schedule/' + req.params.scheduleId);
-            });
-    });
+    // post comment
+    .post('/comments/:id', function(req,res){
+      var newComment = req.body.comment;
+      newComment.writer = req.user._id;
+      newComment.createdAt = new Date();
+
+      Schedule.update({_id:req.params.id},{$push:{comments:newComment}},function(err,post){
+        if(err) return res.json({success:false, message:err});
+        res.redirect('/schedule/'+req.params.id);
+        });
+      })
+      // destroy comment
+      .delete('/:scheduleId/comments/:commentId', function(req,res){
+          Schedule.update({_id:req.params.scheduleId},{$pull:{comments:{_id:req.params.commentId}}},
+              function(err,post){
+                  if(err) return res.json({success:false, message:err});
+                  res.redirect('/schedule/'+req.params.scheduleId);
+      });
+  });
 
 // edit
 router.get("/:id/edit", function(req, res) {
-        Schedule.findById(req.params.id)
-            .exec(function(err, schedul) {
-                if (err) return res.json(err);
-                res.render("edit", {
-                    schedul: schedul,
-                });
+        Schedule.findById(req.params.id )
+        .exec( function(err, schedul) {
+            if (err) return res.json(err);
+            res.render("edit", {
+                schedul: schedul,
             });
+        });
     })
     .post("/:id/edit", function(req, res) {
         ScheduleUtil.updateSchedule(req, res);

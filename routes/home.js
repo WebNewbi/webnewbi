@@ -59,7 +59,8 @@ router.get("/profile/:id", function(req, res) {
     }, function(err, user) {
         if (err) return res.json(err);
         res.render("profile", {
-            user: user
+            user: user,
+            myInfo:req.user
         });
     });
 });

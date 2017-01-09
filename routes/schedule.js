@@ -32,6 +32,20 @@ router.post("/search", function(req, res) {
     });
 });
 
+// show mySchedule
+router.get("/mySchedule", isLoggedIn, function(req, res) {
+    Schedule.find({
+            'ownerId': req.user._id
+        })
+        .populate(['users', 'ownerId'])
+        .exec(function(err, scheduls) {
+            if (err) return res.json(err);
+            res.render("mySchedule", {
+                scheduls: scheduls,
+            });
+        });
+});
+
 // show specific schedule
 router.get("/:id", function(req, res) {
         Schedule.findById(req.params.id)
@@ -84,19 +98,7 @@ router.get("/:id", function(req, res) {
             });
     });
 
-// show mySchedule
-router.get("/mySchedule", isLoggedIn, function(req, res) {
-    Schedule.find({
-            'ownerId': req.user._id
-        })
-        .populate(['users', 'ownerId'])
-        .exec(function(err, scheduls) {
-            if (err) return res.json(err);
-            res.render("mySchedule", {
-                scheduls: scheduls,
-            });
-        });
-});
+
 
 // edit
 router.get("/:id/edit", function(req, res) {

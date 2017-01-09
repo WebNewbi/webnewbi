@@ -62,7 +62,9 @@ router.get("/:id", function(req, res) {
   });
 
 // show mySchedule
-router.get("/mySchedule", isLoggedIn, function(req, res) {
+router.get("/my", isLoggedIn, function(req, res) {
+  req;
+  /*
     Schedule.find({
             'ownerId': req.user._id
         })
@@ -73,6 +75,7 @@ router.get("/mySchedule", isLoggedIn, function(req, res) {
                 scheduls: scheduls,
             });
         });
+        */
 });
 
 // edit

@@ -8,13 +8,16 @@
 
     <body>
         <% include partials/nav %>
-
+        <% include partials/margin %>
         <section class="container">
             <div class="row">
                 <figure class="col-sm-6">
                     <div class="container contact contact-index">
                         <ul class="list-group">
                                 <li class="list-group-item">
+                                    <p>
+                                      <b><%= schedule.ownerId.name %></b> 
+                                    </p>
                                     <p>
                                         <%= schedule.cityName %>
                                     </p>

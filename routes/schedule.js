@@ -12,6 +12,21 @@ var upload = multer({
 
 var router = express.Router();
 
+// show mySchedule
+router.get("/my", isLoggedIn, function(req, res) {
+
+    Schedule.find({
+            'ownerId': req.user._id
+        })
+        .populate('ownerId')
+        .exec(function(err, scheduls) {
+            if (err) return res.json(err);
+            res.render("mySchedule", {
+                scheduls: scheduls,
+            });
+        });
+});
+
 // new
 router.get("/new", isLoggedIn, function(req, res) {
         res.render("new");
@@ -32,24 +47,11 @@ router.post("/search", function(req, res) {
     });
 });
 
-// show mySchedule
-router.get("/mySchedule", isLoggedIn, function(req, res) {
-    Schedule.find({
-            'ownerId': req.user._id
-        })
-        .populate(['users', 'ownerId'])
-        .exec(function(err, scheduls) {
-            if (err) return res.json(err);
-            res.render("mySchedule", {
-                scheduls: scheduls,
-            });
-        });
-});
-
 // show specific schedule
 router.get("/:id", function(req, res) {
         Schedule.findById(req.params.id)
-            .populate(['users', 'comments.writer'])
+            .populate('comments.writer')
+            .populate('ownerId')
             .exec(function(err, schedule) {
                 if (err) return res.json(err);
                 res.render("viewSchedule", {
@@ -97,8 +99,6 @@ router.get("/:id", function(req, res) {
                 res.redirect('/schedule/' + req.params.scheduleId);
             });
     });
-
-
 
 // edit
 router.get("/:id/edit", function(req, res) {

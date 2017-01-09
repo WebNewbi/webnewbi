@@ -63,11 +63,10 @@ router.get("/:id", function(req, res) {
 
 // show mySchedule
 router.get("/mySchedule", isLoggedIn, function(req, res) {
-    Schedule
-        .find({
-            'ownerId': req.session.passport.user
+    Schedule.find({
+            'ownerId': req.user._id
         })
-        .populate("users")
+        .populate(['users','ownerId'])
         .exec(function(err, scheduls) {
             if (err) return res.json(err);
             res.render("mySchedule", {

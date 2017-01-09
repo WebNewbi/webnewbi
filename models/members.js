@@ -33,7 +33,24 @@ var userSchema = mongoose.Schema({
     picture: {
         binaryData: Buffer,
         contentType: String
-    }
+    },
+
+    notes: [{
+        writer: [{
+            type: mongoose.Schema.ObjectId,
+            ref: 'users',
+            required: true
+        }],
+        body: [{
+            type: String,
+            required: true,
+            createdAt: {
+                type: Date,
+                default: Date.Now,
+                required: true
+            }
+        }]
+    }]
 
 }, {
     toObject: {

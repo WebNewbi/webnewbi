@@ -3,7 +3,16 @@
 <html>
 
     <head>
-        <% include partials/head %>
+        <title>Node Authentication</title>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+        <style>
+            body {
+                padding-top: 80px;
+                word-wrap: break-word;
+            }
+
+        </style>
     </head>
 
     <style>
@@ -16,7 +25,6 @@
     </style>
 
     <body>
-      
         <% include partials/nav %>
             <div class="container-fluid bg-1 text-center">
                 <h3>Edit Profile</h3>
@@ -31,7 +39,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-5" for="picture">Picture</label>
                                     <div class="col-sm-2">
-                                        <input type="file" class="form-control" name="picture" id="picture" value=<%=user.picture%>/>
+                                        <input type="file" class="form-control" name="picture" id="picture" />
                                     </div>
                                 </div>
 

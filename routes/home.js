@@ -58,7 +58,7 @@ router.get("/profile/:id", function(req, res) {
         '_id': req.params.id
     }, function(err, user) {
         if (err) return res.json(err);
-        res.render("profile", {
+        res.render("profileView", {
             user: user,
             myInfo: req.user
         });

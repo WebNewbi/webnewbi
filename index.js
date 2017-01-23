@@ -78,6 +78,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use("/", require("./routes/home"));
 app.use("/login", require("./routes/login"));
 app.use("/schedule", require("./routes/schedule"));
+app.use("/chat", require("./routes/chat"));
 
 // Port setting
 app.listen(3000, function() {

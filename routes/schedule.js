@@ -65,7 +65,7 @@ router.get("/:id/view", function(req, res) {
 
       Schedule.update({_id:req.params.id},{$push:{comments:newComment}},function(err,post){
         if(err) return res.json({success:false, message:err});
-        res.redirect('/schedule/'+req.params.id);
+        res.redirect('/schedule/'+req.params.id+'/view');
         });
       })
       // destroy comment
@@ -73,7 +73,7 @@ router.get("/:id/view", function(req, res) {
           Schedule.update({_id:req.params.scheduleId},{$pull:{comments:{_id:req.params.commentId}}},
               function(err,post){
                   if(err) return res.json({success:false, message:err});
-                  res.redirect('/schedule/'+req.params.scheduleId);
+                  res.redirect('/schedule/'+req.params.scheduleId+'/view');
       });
   });
 

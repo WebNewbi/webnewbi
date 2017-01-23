@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <% include partials/head %>
+
+    </head>
+
+    <body>
+        <% include partials/nav %>
+            <% include partials/margin %>
+                <section class="container">
+                    <div class="row">
+                        <figure class="col-sm-6">
+                            <div class="container contact contact-index">
+                                <ul class="list-group">
+                                    <% scheduls.forEach(function(schedul) { %>
+                                        <!-- 3 -->
+                                        <li class="list-group-item">
+                                            <p>
+                                                <%= schedul.cityName %>
+                                            </p>
+                                            <p>
+                                                <%= schedul.start %>
+                                            </p>
+                                            <p>
+                                                <%= schedul.end %>
+                                            </p>
+                                            <p>
+                                                <%= schedul.comment %>
+                                            </p>
+                                            <p>
+                                                <%= schedul.tags %>
+                                            </p>
+                                            <% schedul.pictures.forEach( function(picture) { %>
+                                                <img src="data:image/jpeg;base64,<%=picture.binaryData.toString('base64') %>" />
+                                                <% }) %>
+                                                    <p>
+                                                        <a href="/schedule/<%= schedul._id %>/scheduleEdit"> Edit </a>
+                                                    </p>
+                                        </li>
+                                        <% }) %>
+                                </ul>
+                            </div>
+                        </figure>
+                    </div>
+                </section>
+
+                <% include partials/footer %>
+    </body>
+
+</html>

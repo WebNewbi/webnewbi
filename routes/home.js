@@ -60,22 +60,22 @@ router.get("/profile/:id", function(req, res) {
         if (err) return res.json(err);
         res.render("profile", {
             user: user,
-            myInfo:req.user
+            myInfo: req.user
         });
     });
 });
 
-router.get("/editProfile", function(req, res) {
+router.get("/profileEdit", function(req, res) {
         Member.findOne({
             '_id': req.session.passport.user
         }, function(err, user) {
             if (err) return res.json(err);
-            res.render("editProfile", {
+            res.render("profileEdit", {
                 user: user
             });
         });
     })
-    .post("/editProfile", isLoggedIn, upload.single('picture'), function(req, res) {
+    .post("/profileEdit", isLoggedIn, upload.single('picture'), function(req, res) {
 
         var updateInfo = {
             'name': req.body.name,

@@ -8,17 +8,17 @@
 
     <body>
         <% include partials/nav %>
-        <% include partials/jumbotron %>
-        <% include partials/margin %>
-            <section class="container">
-                <div class="row">
-                    <figure class="col-sm-6">
-                        <% include list %>
-                    </figure>
-                </div>
-            </section>
+            <% include partials/jumbotron %>
+                <% include partials/margin %>
+                    <section class="container">
+                        <div class="row">
+                            <figure class="col-sm-6">
+                                <% include partials/scheduleList %>
+                            </figure>
+                        </div>
+                    </section>
 
-            <% include partials/footer %>
+                    <% include partials/footer %>
     </body>
 
 </html>

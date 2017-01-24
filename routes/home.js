@@ -53,7 +53,7 @@ router.post("/signup", function(req, res) {
     });
 });
 
-router.get("/profile/:id", function(req, res) {
+router.get("/profileView/:id", function(req, res) {
     Member.findOne({
         '_id': req.params.id
     }, function(err, user) {

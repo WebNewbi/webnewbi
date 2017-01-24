@@ -29,8 +29,8 @@
 -                            <h3><%= user.name %></h3>
 -                            <% if(myInfo && myInfo.equals( user._id) ) { %>
 -                              <p>
--                                  <a href="/editProfile"> Edit </a>
--                                  <a href="/editProfile"> Note </a>
+-                                  <a href="/profileEdit"> Edit </a>
+-                                  <a href="/chat/<%= user.id %>"> Chat </a>
 -                              </p>
 -                            <% }else{ %>
 -                              <p>

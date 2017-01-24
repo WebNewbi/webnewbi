@@ -22,7 +22,7 @@ router.get("/", function(req, res) {
             .populate('sender')
             .exec(function(err, messages) {
                 if (err) return res.json(err);
-                res.json( {
+                  res.render("chat", {
                     conversation: conversations[0],
                     messages: messages
                 });
@@ -32,10 +32,10 @@ router.get("/", function(req, res) {
 });
 
 // view message with participant
-router.get("/:input", function(req, res) {
+router.get("/view", function(req, res) {
 
   Conversation.findOneAndUpdate({  participants : [req.session.passport.user, req.query.participant]},
-    {$setOnInsert: {'participants': [req.session.passport.user, req.query.participant]}},
+     {$setOnInsert: {'participants': [req.session.passport.user, req.query.participant]}},
      {upsert: true, returnNewDocument: true})
      .populate('participants')
      .exec(function(err, conversation) {
@@ -54,10 +54,10 @@ router.get("/:input", function(req, res) {
 });
 
 // send message to participant
-router.post("/send/:input", function(req, res) {
+router.post("/send/participant", function(req, res) {
 
   Conversation.findOneAndUpdate({  participants : [req.session.passport.user, req.query.participant]},
-    {$setOnInsert: {'participants': [req.session.passport.user, req.query.participant]}},
+     {$setOnInsert: {'participants': [req.session.passport.user, req.query.participant]}},
      {upsert: true, returnNewDocument: true})
      .populate('participants')
      .exec(function(err, conversation) {
@@ -65,7 +65,7 @@ router.post("/send/:input", function(req, res) {
 
           var newMessage = {
               sender: req.session.passport.user,
-              content: 'templeate...!!',
+              content: req.body.comment,
               converstationId: conversation._id,
               createdAt:new Date()
           }
@@ -78,7 +78,30 @@ router.post("/send/:input", function(req, res) {
             });
 
       })
-    });
+    })
+    .post("/send/conversation", function(req, res) {
+
+      Conversation.findOne({  _id :  req.query.id } )
+         .populate('participants')
+         .exec(function(err, conversation) {
+              if (err) res.json(err);
+
+              var newMessage = {
+                  sender: req.session.passport.user,
+                  content: req.body.comment,
+                  converstationId: conversation._id,
+                  createdAt:new Date()
+              }
+
+              Message.create(newMessage, function(err, message) {
+                  if (err) return res.json(err);
+
+
+                  res.redirect('/chat/participant=' + req.query.participant);
+                });
+
+          })
+        });
 
 router.get("/chat/:id", function(req, res) {
     Member.findOne({

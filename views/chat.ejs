@@ -14,6 +14,11 @@
 <div class="row " style="padding-top:40px;">
     <h3 class="text-center" >BOOTSTRAP CHAT EXAMPLE </h3>
     <br /><br />
+
+
+    <%
+      if( conversation !== 'undefined')
+    {%>
     <div class="col-md-8">
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -22,42 +27,47 @@
 
             <div class="panel-body">
 
-
+              <% messages.forEach( function(message) { %>
               <ul class="media-list">
                 <li class="media">
                   <div class="media-body">
                     <div class="media">
                       <a class="pull-left" href="#">
-                        <img class="media-object img-circle " src="assets/img/user.gif" />
+                        <% if ( typeof message.sender.picture.binaryData !== 'undefined' ) { %>
+                              <img src="data:image/jpeg;base64,<%=message.sender.picture.binaryData.toString('base64') %>" class="media-object img-circle" style="max-height:40px;"/>
+                                <%  }else {%>
+                                  <img src="https://static.nid.naver.com/images/web/user/default.png" class="media-object img-circle"style="max-height:40px;"/>
+                          <% } %>
                       </a>
                       <div class="media-body" >
-                        Donec sit amet ligula enim. Duis vel condimentum massa.
-                        Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim.
-                        Duis vel condimentum massa.
-                        Donec sit amet ligula enim. Duis vel condimentum massa.
+                        <%= message.content %>
                         <br />
-                      <small class="text-muted">Jhon Rexa | 23rd June at 5:00pm</small>
+                      <small class="text-muted"><%= message.sender.name %> | <%= message.createdAt %></small>
                         <hr />
                       </div>
                     </div>
                   </div>
                 </li>
               </ul>
-
+            <% }) %>
 
             </div>
             <div class="panel-footer">
               <div class="input-group">
-                <form method="post" action="/:id/sendChat">>
-                  <input type="text" class="form-control" placeholder="Enter Message" />
+
+                <form method="post" action="/chat/send/conversation?id=<%=conversation._id%>" >
+                  <input type="text" class="form-control" name="message[body]" placeholder="Enter Message" />
                   <span class="input-group-btn">
                     <button class="btn btn-info" type="button">SEND</button>
                   </span>
                 </form>
+
               </div>
           </div>
         </div>
     </div>
+
+
     <div class="col-md-4">
 
 
@@ -68,21 +78,30 @@
 
 
             <div class="panel-body">
+
+
+              <% conversation.participants.forEach( function(participant) { %>
                 <ul class="media-list">
                   <li class="media">
                     <div class="media-body">
                       <div class="media">
                         <a class="pull-left" href="#">
-                          <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.gif" />
+                          <% if ( typeof participant.picture.binaryData !== 'undefined' ) { %>
+                                <img src="data:image/jpeg;base64,<%=participant.picture.binaryData.toString('base64') %>" class="media-object img-circle" style="max-height:40px;"/>
+                                  <%  }else {%>
+                                    <img src="https://static.nid.naver.com/images/web/user/default.png" class="media-object img-circle"style="max-height:40px;"/>
+                            <% } %>
                         </a>
                         <div class="media-body" >
-                            <h5>Jhon Rexa | User </h5>
+                            <h5><%= participant.name %> | User </h5>
                            <small class="text-muted">Active From 3 hours</small>
                         </div>
                       </div>
                     </div>
                   </li>
                 </ul>
+
+              <%  }) %>
               </div>
 
 
@@ -91,6 +110,8 @@
           </div>
         </div>
       </div>
+
+      <% } %>
       <% include partials/footer %>
 </body>
 </html>

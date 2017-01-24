@@ -2,7 +2,7 @@
 var mongoose = require("mongoose");
 
 var conversationSchema = mongoose.Schema({
-    paritipants : [
+    participants : [
       {
         type: mongoose.Schema.ObjectId,
         ref: 'users',

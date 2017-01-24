@@ -30,11 +30,11 @@
 -                            <% if(myInfo && myInfo.equals( user._id) ) { %>
 -                              <p>
 -                                  <a href="/profileEdit"> Edit </a>
--                                  <a href="/chat/<%= user.id %>"> Chat </a>
+-                                  <a href="/chat/"> Chat </a>
 -                              </p>
 -                            <% }else{ %>
 -                              <p>
--                                  <a href="/sendMessage"> Send Message </a>
+-                                  <a href="/chat/participant=<%= user.id %>"> Send Message </a>
 -                              </p>
 -                              <% } %>
 -

@@ -13,16 +13,17 @@ router.get("/", function(req, res) {
           if ( conversations.length === 0 )
           {
             res.render("chat", {
-                conversation: conversation,
+                conversation: undefined,
+                messages : undefined
             });
           }
           else {
-            Message.find( { converstationId:conversation[0]._id })
+            Message.find( { converstationId:conversations[0]._id })
             .populate('sender')
             .exec(function(err, messages) {
                 if (err) return res.json(err);
                 res.json( {
-                    conversation: conversation,
+                    conversation: conversations[0],
                     messages: messages
                 });
               });
@@ -75,7 +76,7 @@ router.post("/send/:input", function(req, res) {
 
               res.redirect('/chat/participant=' + req.query.participant);
             });
- 
+
       })
     });
 

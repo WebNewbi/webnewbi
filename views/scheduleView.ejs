@@ -47,7 +47,7 @@
                                             <% schedule.comments.forEach(function(comment){ %>
                                                 <div class="comment">
                                                     <div class="top">
-                                                        <a href="/profile/<%= comment.writer._id %>"><b><%= comment.writer.name %></b> </a>(
+                                                        <a href="/profileView/<%= comment.writer._id %>"><b><%= comment.writer.name %></b> </a>(
                                                         <%= comment.createdAt %>)
                                                             <% if(user && user.equals( comment.writer._id) ) { %>
                                                                 <form class="delete" method="post" action="/schedule/<%=schedule._id%>/comments/<%=comment._id%>?_method=delete">

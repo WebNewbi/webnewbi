@@ -7,7 +7,7 @@ var router = express.Router();
 // view all chat list
 router.get("/", function(req, res) {
   Conversation.find({participants : {$elemMatch:{$eq:req.session.passport.user}}})
-  .populate('participants')
+      .populate('participants')
       .exec(function(err, conversations) {
           if (err) return res.json(err);
           if ( conversations.length === 0 )

@@ -53,12 +53,12 @@ router.post("/signup", function(req, res) {
     });
 });
 
-router.get("/profile/:id", function(req, res) {
+router.get("/profileView/:id", function(req, res) {
     Member.findOne({
         '_id': req.params.id
     }, function(err, user) {
         if (err) return res.json(err);
-        res.render("profile", {
+        res.render("profileView", {
             user: user,
             myInfo: req.user
         });

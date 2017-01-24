@@ -16,7 +16,7 @@
                                 <ul class="list-group">
                                     <li class="list-group-item">
                                         <p>
-                                            <b><a href="/profile/<%= schedule.ownerId._id %>"><%= schedule.ownerId.name %></a></b>
+                                            <b><a href="/profileView/<%= schedule.ownerId._id %>"><%= schedule.ownerId.name %></a></b>
                                         </p>
                                         <p>
                                             <%= schedule.cityName %>
@@ -64,9 +64,9 @@
 
 
                                                         <form class="addComment checkValidation" action="/schedule/comments/<%=schedule._id%>" method="post">
-                                                            <textarea class="cvRequired" type="text" name="comment[body]" cvRqErrMsg="comments is empty." cvRqErrTo="#cvErrTitle" <%=u ser? "": "disabled" %>
+                                                            <textarea class="cvRequired" type="text" name="comment[body]" cvRqErrMsg="comments is empty." cvRqErrTo="#cvErrTitle" <%= user? "": "disabled" %>
                                                 placeholder="<%= user?"Add comment here":"Please login to make a comment" %>"></textarea>
-                                                            <button type="submit" <%=user? "": "disabled" %>>Comment</button>
+                                                            <button type="submit" <%= user? "": "disabled" %>>Comment</button>
                                                             <div id="cvErrTitle" class="message"></div>
                                                         </form>
                                     </div>

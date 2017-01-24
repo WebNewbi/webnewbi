@@ -86,7 +86,19 @@ router.get("/send/:input", function(req, res) {
               res.json(message);
             });
 
-      });
+      })
+    });
+
+router.get("/chat/:id", function(req, res) {
+    Member.findOne({
+        '_id': req.params.id
+    }, function(err, user) {
+        if (err) return res.json(err);
+        res.render("chat", {
+            user: user,
+            myInfo: req.user
+        });
+    });
 });
 
 

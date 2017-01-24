@@ -13,7 +13,7 @@ var upload = multer({
 var router = express.Router();
 
 // show mySchedule
-router.get("/my", isLoggedIn, function(req, res) {
+router.get("/scheduleMy", isLoggedIn, function(req, res) {
 
     Schedule.find({
             'ownerId': req.user._id
@@ -48,7 +48,7 @@ router.post("/search", function(req, res) {
 });
 
 // show specific schedule
-router.get("/:id/view", function(req, res) {
+router.get("/:id/scheduleView", function(req, res) {
         Schedule.findById(req.params.id)
             .populate('comments.writer')
             .populate('ownerId')
